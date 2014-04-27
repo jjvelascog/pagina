@@ -11,3 +11,8 @@
  *= require_self
  *= require_tree .
  */
+h3 {
+	font-size: 30px;
+	text-decoration: underline;
+	color: darkblue;
+}
