@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sku: 
+  cantidad: 
+  cliente: MyString
+  fecha: 2014-04-27
+  responsable: MyString
+
+two:
+  sku: 
+  cantidad: 
+  cliente: MyString
+  fecha: 2014-04-27
+  responsable: MyString

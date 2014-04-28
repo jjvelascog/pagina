@@ -1,0 +1,8 @@
+class ReservasController < ApplicationController
+  def actualizar
+  end
+
+  def index
+  end
+
+end

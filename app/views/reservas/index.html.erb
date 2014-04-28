@@ -1,0 +1,14 @@
+<h1>Reservas</h1>
+<Table>
+	<tr>
+		<th>Cliente</th>
+		<th>SKU</th>
+		<th>Cantidad</th>
+	</tr>
+<% Reserva.all.each do |reserva| %>
+	<tr>
+		<td><%= reserva.cliente %></td>
+		<td><%= reserva.sku %></td>
+		<td><%= reserva.cantidad %></td>
+	</tr>
+<% end %>
