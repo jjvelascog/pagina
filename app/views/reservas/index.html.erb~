@@ -4,11 +4,19 @@
 		<th>Cliente</th>
 		<th>SKU</th>
 		<th>Cantidad</th>
+<<<<<<< HEAD
+		<th>Fecha</th>
+=======
+>>>>>>> ae28ce63d5bb060d263d415594fe9ea5e468158a
 	</tr>
 <% Reserva.all.each do |reserva| %>
 	<tr>
 		<td><%= reserva.cliente %></td>
 		<td><%= reserva.sku %></td>
 		<td><%= reserva.cantidad %></td>
+<<<<<<< HEAD
+		<td><%= reserva.fecha %></td>
+=======
+>>>>>>> ae28ce63d5bb060d263d415594fe9ea5e468158a
 	</tr>
 <% end %>

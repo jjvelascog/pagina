@@ -3,5 +3,8 @@ class Reserva < ActiveRecord::Base
 	validates_presence_of :cantidad
 	validates_presence_of :cliente
 	validates_presence_of :fecha
+<<<<<<< HEAD
+=======
 	validates_presence_of :responsable
+>>>>>>> ae28ce63d5bb060d263d415594fe9ea5e468158a
 end
