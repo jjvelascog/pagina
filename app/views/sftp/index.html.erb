@@ -1,0 +1,20 @@
+<h1>Lector de XMLs</h1>
+
+
+<% @xmlArray.each do |xml_info| %>
+	<p><%= @fileArray.shift %> [<%= xml_info['Pedidos'][0]['fecha'][0] %> - <%= xml_info['Pedidos'][0]['hora'] %>] 
+	Rut: <%= xml_info['Pedidos'][0]['rut'][0] %> - 
+	Direccion: <%= xml_info['Pedidos'][0]['direccionId'][0] %> - 
+	Fecha Entrega: <%= xml_info['Pedidos'][0]['fecha'][1] %></p>
+
+	<ul>
+	<% xml_info['Pedidos'][0]['Pedido'].each do |ped| %>
+		<li>Sku: <%= ped['sku'][0] %></li>
+		<ul><li>Cantidad: <%= ped['cantidad'][0]['content'] %> <%= ped['cantidad'][0]['unidad'] %></li></ul>
+	<% end %>
+	</ul>
+<% end %>
+
+
+
+

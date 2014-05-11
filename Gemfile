@@ -52,3 +52,5 @@ gem 'money', '6.0.1'
 gem 'google_drive','0.3.9'
 
 gem 'httparty','0.13.1'
+gem 'xml-simple', '1.1.3'
+gem 'net-sftp', '2.1.2'

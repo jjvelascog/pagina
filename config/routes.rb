@@ -2,6 +2,8 @@ Pagina::Application.routes.draw do
 
   root 'welcome#index'
   #get "welcome/index"
+  
+  get "sftp" => "sftp#index"
 
   get "reservas/actualizar" => "reservas#actualizar"
   get "reservas" => "reservas#index", as: 'all_reservas'
