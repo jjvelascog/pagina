@@ -50,3 +50,5 @@ gem 'spree_auth_devise', :git => 'https://github.com/spree/spree_auth_devise.git
 
 gem 'money', '6.0.1'
 gem 'google_drive','0.3.9'
+
+gem 'httparty','0.13.1'
