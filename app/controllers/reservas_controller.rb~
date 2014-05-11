@@ -6,6 +6,7 @@ class ReservasController < ApplicationController
 	session = GoogleDrive.login("central.ahorro.4@gmail.com","Grupaso4")
 	ws = session.spreadsheet_by_key("0As9H3pQDLg79dGdkNFlvaUJKa2NjVmllN05VOXhiNmc").worksheets[0]
 	
+	Reserva.delete_all
 	fecha = ws[2,2]		
 	for i in 5..ws.num_rows()
 		r = Reserva.new
