@@ -1,0 +1,16 @@
+<h1>Productos</h1>
+<Table>
+	<tr>
+		<th>SKU<th>
+		<th>Precio</th>
+		<th>FechaAct</th>
+		<th>Costo</th>
+	</tr>
+<% Producto.all.each do |producto| %>
+	<tr>
+		<td><%= producto.sku %></td>
+		<td><%= producto.precio %></td>
+		<td><%= producto.fechaact %></td>
+		<td><%= producto.costoprod %></td>
+	</tr>
+<% end %>

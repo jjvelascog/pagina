@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sku: MyText
+  precio: MyText
+  fechaact: MyText
+  fechavig: MyText
+  costoprod: MyText
+  costotras: MyText
+  costoalm: MyText
+
+two:
+  sku: MyText
+  precio: MyText
+  fechaact: MyText
+  fechavig: MyText
+  costoprod: MyText
+  costotras: MyText
+  costoalm: MyText
