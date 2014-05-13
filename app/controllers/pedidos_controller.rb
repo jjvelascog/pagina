@@ -10,9 +10,9 @@ class PedidosController < ApplicationController
     
     pedido['producto'].each do |aux|
       precio = Producto.where("sku=?",aux['sku']).first.precio #TODO tania
-      almacen = Almacen::new(main) #TODO Nacho
+      almacen = Almacen.new()
       
-      stock = almacen.get_stock(aux['sku']) #TODO NAcho
+      stock = almacen.get_stock(aux['sku'])
       reserva_tuya = Reserva.where(sku: aux['sku']).where(cliente: pedido['rut']).first.cantidad #TODO ignacio
       total_reservas = Reserva.where(sku: aux['sku']).sum(:cantidad) #TODO ignacio
       
@@ -36,7 +36,7 @@ class PedidosController < ApplicationController
             #Restar en reserva
             #Despachar
             #Guardar en DW
-          else if (reserva_tuya == aux['cantidad'])  
+          elsif(reserva_tuya == aux['cantidad'])  
             #Borrar reserva
             #Despachar
             #Guardar en DW
@@ -54,5 +54,4 @@ class PedidosController < ApplicationController
       end
     end  
   end
-end
 end

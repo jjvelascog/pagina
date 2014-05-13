@@ -16,65 +16,93 @@ class Almacen
 	@@usado = "usedSpace" 
 	@@version = "__v"
 	
-	def initialize(type)
+	def initialize()
 		signature = 'GET'
     aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
     consulta = HTTParty.get(@@base_uri+"/almacenes",:headers => { "Authorization" => aut})
-		case type
-      when "pulmon"
-  		  consulta.each do |i|
-          if (i[@@pulmon])
-            @id = i[@@id]
-            @space = i[@@espacio]
-            @used = i[@@usado]
-          end
-        end
-  		when "recepcion"
-  		  consulta.each do |i|
-          if (i[@@recepcion])
-            @id = i[@@id]
-            @space = i[@@espacio]
-            @used = i[@@usado]
-          end
-        end
-      when "despacho"
-        consulta.each do |i|
-          if (i[@@despacho])
-            @id = i[@@id]
-            @space = i[@@espacio]
-            @used = i[@@usado]
-          end
-        end
-  		when "main"
-  		  @space = 0
-        consulta.each do |i|
-          if (!i[@@pulmon])
-            if ( @space == 0 or @space < i[@@espacio])
-              @id = i[@@id]
-              @space = i[@@espacio]
-              @used = i[@@usado]
-            end
-          end
-        end
+	  space = 0
+    consulta.each do |i|
+      if(i[@@pulmon])
+        @pulmon = i[@@id]
+      elsif(i[@@despacho])
+        @despacho = i[@@id]
+      elsif(i[@@recepcion])
+        @recepcion = i[@@id]
       else
-        puts "error"
+        if ( space == 0 or space < i[@@espacio])
+          @main= i[@@id]
+          space = i[@@espacio]
+        end
+      end
     end
 	end
 
 	def get_stock(sku)
-	  #TODO
-	  signature = 'GET'+@id+sku
-    aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
-    consulta = HTTParty.get(@@base_uri+"/stock",:headers => { "Authorization" => aut},:query => {"almacenId" => @id, "sku" => sku, "limit" => "200"})
-    return consulta.size
+	  return self.stock(sku,@main)+self.stock(sku,@pulmon)
 	end
+  
+  def despachar(sku, cantidad, direccion, precio, pedidoId)
+    cantidadDespachada = 0
+    
+    cantidadMain = self.stock(sku,@main)
+    cantidadPulmon = self.stock(sku,@pulmon)
+    
+    while cantidadDespachada < cantidad do
+      if(cantidadPulmon != 0)
+        id = self.first(sku,@pulmon)
+        
+        self.mover(id,@despacho)
+        self.borrar(id,direccion, precio, pedidoId)
 
-  def get_skus()
-    #TODO
-    signature = 'GET'+@id
+        cantidadPulmon -= 1
+        cantidadDespachada += 1
+      elsif(cantidadMain != 0)
+        id = self.first(sku,@main)
+        
+        self.mover(id,@despacho)
+        self.borrar(id,direccion, precio, pedidoId)
+        
+        #TODO Mover desde el pulmon
+        cantidadMain -= 1
+        cantidadDespachada += 1
+      else
+        break
+      end  
+    end
+    return cantidadDespachada
+  end
+  
+  def mover(id, destino)
+    signature3 = 'POST'+id+destino
+    aut3 = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature3)}")
+    return HTTParty.post(@@base_uri+"/moveStock",:headers => { "Authorization" => aut3},:body => {"almacenId" => destino, "productoId" => id}) 
+  end
+  
+  def borrar(id, direccion, precio, pedidoId)
+    signature = 'DELETE'+id+direccion+precio+pedidoId
     aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
-    consulta = HTTParty.get(@@base_uri+"/skusWithStock",:headers => { "Authorization" => aut},:query => {"almacenId" => @id})
+    return HTTParty.delete(@@base_uri+"/stock",:headers => { "Authorization" => aut},:body=> {"productoId" => id, "direccion" => direccion, "precio" => precio, "pedidoId" => pedidoId})
+  end
+  
+  def stock(sku, almacen)
+    signature = 'GET'+almacen+sku
+    aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
+    consulta = HTTParty.get(@@base_uri+"/stock",:headers => { "Authorization" => aut},:query => {"almacenId" => almacen, "sku" => sku, "limit" => "200"})
+    return consulta.size
+  end
+  
+  def get_skus(almacen)
+    signature = 'GET'+almacen
+    aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
+    consulta = HTTParty.get(@@base_uri+"/skusWithStock",:headers => { "Authorization" => aut},:query => {"almacenId" => almacen})
     return consulta
+  end
+  
+  def first(sku, almacen)
+    signature = 'GET'+almacen+sku
+    aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
+    consulta = HTTParty.get(@@base_uri+"/stock",:headers => { "Authorization" => aut},:query => {"almacenId" => almacen, "sku" => sku, "limit" => "200"})
+    return consulta[0]['_id']
   end
   
 end
