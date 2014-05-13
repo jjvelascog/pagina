@@ -7,6 +7,7 @@ class PedidosController < ApplicationController
     #TODO Tania Revisar si existen los productos
     
 	pedido = session[:tmp_pedido]
+	@showpedido = pedido
 	session[:tmp_pedido] = nil
     address = Vtiger.get_address_from_rut(pedido['Pedidos'][0]['rut'][0]) #TODO Arturo
     
@@ -15,8 +16,9 @@ class PedidosController < ApplicationController
       almacen = Almacen.new()
       
 
-      stock = almacen.get_stock(aux['sku'][0])
-      reserva = Reserva.where(sku: aux['sku'][0])
+      stock = almacen.get_stock(aux['sku'][0].strip)
+	  puts stock
+      reserva = Reserva.where(sku: aux['sku'][0].strip)
       if(!reserva.empty?)
         total_reservas = reserva.sum(:cantidad)
         reserva_propia = reserva.where(cliente: pedido['Pedidos'][0]['rut'][0])
@@ -32,8 +34,10 @@ class PedidosController < ApplicationController
       
       stock_disponible = stock-total_reservas+reserva_tuya     
       
+	  puts aux['cantidad'][0]['content'].to_f
+	  
       if(reserva_tuya == 0)
-        if(stock_disponible > aux['cantidad'][0]['content'])
+        if(stock_disponible > aux['cantidad'][0]['content'].to_f)
           #despachar #TODO ignacio 
           #Guardar en data Warehouse #TODO Juan Jose
         else
@@ -41,21 +45,21 @@ class PedidosController < ApplicationController
           #Guardar en data Warehouse
         end
       else
-        if(stock < aux['cantidad'][0]['content'] )
+        if(stock < aux['cantidad'][0]['content'].to_f )
           #Quiebra
           #Pedir a otras bodegas #TODO Pablo 
           #Guardar en data Warehouse 
         else
-          if(reserva_tuya > aux['cantidad'][0]['content'])
+          if(reserva_tuya > aux['cantidad'][0]['content'].to_f)
             #Restar en reserva
             #Despachar
             #Guardar en DW
-          elsif(reserva_tuya == aux['cantidad'][0]['content'])  
+          elsif(reserva_tuya == aux['cantidad'][0]['content'].to_f)  
             #Borrar reserva
             #Despachar
             #Guardar en DW
           else
-            if(stock_disponible >= aux['cantidad'][0]['content'])
+            if(stock_disponible >= aux['cantidad'][0]['content'].to_f)
               #Borrar reserva
               #Despachar
               #Guardar en DW
@@ -66,6 +70,8 @@ class PedidosController < ApplicationController
           end      
         end
       end
-    end  
+    end
+	
+	@showadd = address
   end
 end
