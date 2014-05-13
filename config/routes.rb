@@ -1,5 +1,6 @@
 Pagina::Application.routes.draw do
 
+  get "api/pedirProducto"
   root 'welcome#index'
   #get "welcome/index"
   
