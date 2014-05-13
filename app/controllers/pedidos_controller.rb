@@ -13,8 +13,19 @@ class PedidosController < ApplicationController
       almacen = Almacen.new()
       
       stock = almacen.get_stock(aux['sku'])
-      reserva_tuya = Reserva.where(sku: aux['sku']).where(cliente: pedido['rut']).first.cantidad #TODO ignacio
-      total_reservas = Reserva.where(sku: aux['sku']).sum(:cantidad) #TODO ignacio
+      reserva = Reserva.where(sku: "3548645")
+      if(!reserva.empty?)
+        total_reservas = reserva.sum(:cantidad)
+        reserva_propia = reserva.where(cliente: "6833961-8")
+        if (!reserva_propia.empty?)
+          reserva_tuya = @reserva_propia.first.cantidad
+        else
+          reserva_tuya = 0
+        end
+      else
+        total_reservas = 0
+        reserva_tuya = 0
+      end
       
       stock_disponible = stock-total_reservas+reserva_tuya     
       

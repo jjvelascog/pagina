@@ -5,11 +5,11 @@ class ApiController < ApplicationController
   	stockdisponible = true
 
 
-  	if stockdisponible = true
+  	if stockdisponible == true
 
   	else stockdisponible==false
   		
-
+    end
   	return resultado
   end
 end
