@@ -6,7 +6,7 @@ class PedidosController < ApplicationController
     #TODO Pablo Revisar validez datos
     #TODO Tania Revisar si existen los productos
     
-    adress = Vtiger::get_address_from_rut(pedido['rut']) #TODO Arturo
+    address = Vtiger::get_address_from_rut(pedido['rut']) #TODO Arturo
     
     pedido['producto'].each do |aux|
       precio = Producto.where("sku=?",aux['sku']).first.precio #TODO tania
