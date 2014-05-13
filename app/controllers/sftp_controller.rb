@@ -24,13 +24,19 @@ class SftpController < ApplicationController
 			@tempXml = file.gets
 			
 			@tempPedido = XmlSimple.xml_in(@tempXml)
+			
+			# agregar a session
+			session[:tmp_pedido]= @tempPedido
 			@xmlArray.push @tempPedido
 			
 			file.close
+			
+			#temporal hasta que se puedan borrar archivos
+			break
 		end
 	end
 	
-	
+	redirect_to pedidos_path
 	
   end
 end
