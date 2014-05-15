@@ -10,21 +10,19 @@ class PedidosController < ApplicationController
 	pedido = session[:tmp_pedido]
 	@showpedido = pedido
 	session[:tmp_pedido] = nil
-    address = Vtiger.get_address_from_rut(pedido['Pedidos'][0]['rut'][0]) #TODO Arturo
+    address = Vtiger.get_address_from_rut(pedido['Pedidos'][0]['rut'][0]) #TODO Arturoc
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
       
-      #Tania Revisar si existen los productos
+      #Tania Revisar si existen los productos (ver sku)
       sku=aux['sku'][0].strip
       break if Producto.where(sku: sku).count==0 #Si el sku no existe, se salta ese pedido
-      #TODO Tania: Validar que precio esté vigente
-      #USAR EL QUE TIENE LA ULTIMA FECHA DE ACTUALIZACIÓN
+      #Tania Validar que precio esté vigente
       fecha_vig=Producto.where(sku: sku).order(:fechavig).last[:fechavig]
-      #break if fecha_vig < Date.today
+      break if fecha_vig < DateTime.now.strftime('%m/%d/%Y')
 
       precio = Producto.where(sku: sku).first[:precio] #tania
-      #OJO: precio y sku son int
-      # GUARDAR en el DW si se pide un producto que no está?
+      # Guardar en el DW si se pide un producto que no está?
 
 
       almacen = Almacen.new()
