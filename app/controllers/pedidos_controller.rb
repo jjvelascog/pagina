@@ -2,9 +2,10 @@
 class PedidosController < ApplicationController
   
   def venta
-    
+  require 'Date'
+
     #TODO Pablo Revisar validez datos
-    #TODO Tania Revisar si existen los productos
+   
     
 	pedido = session[:tmp_pedido]
 	@showpedido = pedido
@@ -12,12 +13,27 @@ class PedidosController < ApplicationController
     address = Vtiger.get_address_from_rut(pedido['Pedidos'][0]['rut'][0]) #TODO Arturo
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
-      precio = 1000 #Producto.where("sku=?",aux['sku'][0]).first.precio #TODO tania
+      
+      #Tania Revisar si existen los productos
+      sku=aux['sku'][0].strip
+      break if Producto.where(sku: sku).count==0 #Si el sku no existe, se salta ese pedido
+      #TODO Tania: Validar que precio esté vigente
+      #USAR EL QUE TIENE LA ULTIMA FECHA DE ACTUALIZACIÓN
+      fecha_vig=Producto.where(sku: sku).order(:fechavig).last[:fechavig]
+      #break if fecha_vig < Date.today
+
+      precio = Producto.where(sku: sku).first[:precio] #tania
+      #OJO: precio y sku son int
+      # GUARDAR en el DW si se pide un producto que no está?
+
+
       almacen = Almacen.new()
       
 
       stock = almacen.get_stock(aux['sku'][0].strip)
-	  puts stock
+	  puts sku
+    puts precio
+    puts stock
       reserva = Reserva.where(sku: aux['sku'][0].strip)
       if(!reserva.empty?)
         total_reservas = reserva.sum(:cantidad)

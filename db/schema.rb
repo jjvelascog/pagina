@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140511214146) do
+ActiveRecord::Schema.define(version: 20140514022500) do
+
+  create_table "prod2s", force: true do |t|
+    t.text     "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "productos", force: true do |t|
     t.text     "sku"
