@@ -11,7 +11,8 @@ Pagina::Application.routes.draw do
   get "reservas/actualizar" => "reservas#actualizar"
   get "reservas" => "reservas#index", as: 'all_reservas'
   
-  get "productos" => "productos#index"
+  get "productos/actualizar" => "productos#actualizar"
+  get "productos" => "productos#index", as: 'all_productos'
   # This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
   # If you would like to change where this engine is mounted, simply change the :at option to something different.

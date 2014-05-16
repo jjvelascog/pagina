@@ -1,11 +1,11 @@
 require "rubygems"
 
 class ProductosController < ApplicationController
-  def index
+  def actualizar
 
   	require "sqlite3"
     require 'csv'
-    require 'Date'
+    require 'date'
 
     text=File.open('pricing/Pricing.csv').read
 
@@ -24,7 +24,10 @@ class ProductosController < ApplicationController
         Producto.create!(:sku => row[1].to_i, :precio => row[2].to_i, :fechaact => f_act, :fechavig => f_vig, :costoprod => row[5].to_i, :costotras => row[6].to_i, :costoalm => row[7].to_i)
       end
     end
+    redirect_to(all_productos_path)
+  end
 
+  def index
   end
 
 end
