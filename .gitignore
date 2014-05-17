@@ -17,3 +17,4 @@
 script
 script/rails
 lib/test.rb
+db/schema.rb
