@@ -51,18 +51,24 @@ class Almacen
       if(cantidadPulmon != 0)
         id = self.first(sku,@pulmon)
         
-        self.mover(id,@despacho)
-        self.borrar(id,direccion, precio, pedidoId)
-
+        res1 = self.mover(id,@despacho)
+        res2 = self.borrar(id,direccion, precio, pedidoId)
+        if(res2.code != 200)
+          self.mover(id,@pulmon)
+          break
+        end
         cantidadPulmon -= 1
         cantidadDespachada += 1
       elsif(cantidadMain != 0)
         id = self.first(sku,@main)
         
-        self.mover(id,@despacho)
-        self.borrar(id,direccion, precio, pedidoId)
-        
-        #TODO Mover desde el pulmon
+        res1 = self.mover(id,@despacho)
+        res2 = self.borrar(id,direccion, precio, pedidoId)
+        if(res2.code != 200)
+          self.mover(id,@main)
+          break
+        end
+        self.sacarDePulmon()
         cantidadMain -= 1
         cantidadDespachada += 1
       else
@@ -103,6 +109,19 @@ class Almacen
     aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
     consulta = HTTParty.get(@@base_uri+"/stock",:headers => { "Authorization" => aut},:query => {"almacenId" => almacen, "sku" => sku, "limit" => "200"})
     return consulta[0]['_id']
+  end
+  
+  def sacarDePulmon()
+    puts skus = self.get_skus(@pulmon)
+    if(skus.size != 0)
+      sku = skus[0]['_id']
+      id = self.first(skus[0]['_id'],@pulmon)
+      respuesta = self.mover(id,@main)
+      if(respuesta.code = 200)
+        return 1
+      end
+    end
+    return 0
   end
   
 end

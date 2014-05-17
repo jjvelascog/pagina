@@ -1,0 +1,35 @@
+<h1>Pedido Exitoso</h1>
+<Table>
+	<tr>
+		<th>Rut Cliente</th>
+		<th>Direccion</th>
+		<th>XML Pedido</th>
+	</tr>
+	<tr>
+		<td><%= @show_rut %></td>
+		<td><%= @show_adress %></td>
+		<td><%= @show_pedido %></td>
+	</tr>
+</Table>
+<br/><br />
+<Table>
+	<tr>
+		<th>SKU</th>
+		<th>Cantidad pedida</th>
+		<th>Stock</th>
+		<th>Precio</th>
+		<th>Total reservas</th>
+		<th>Reservas propias</th>
+		<th>Cantidad despachada</th>
+	</tr>
+<% @show_productos.each do |producto| %>
+	<tr>
+		<td><%= producto[0] %></td>
+		<td><%= producto[1] %></td>
+		<td><%= producto[2] %></td>
+		<td><%= producto[3] %></td>
+		<td><%= producto[4] %></td>
+		<td><%= producto[5] %></td>
+		<td><%= producto[6] %></td>
+	</tr>
+<% end %>
