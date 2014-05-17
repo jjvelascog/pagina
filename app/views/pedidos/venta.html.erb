@@ -21,6 +21,7 @@
 		<th>Total reservas</th>
 		<th>Reservas propias</th>
 		<th>Cantidad despachada</th>
+		<th>Hubo solicitud</th>
 	</tr>
 <% @show_productos.each do |producto| %>
 	<tr>
@@ -31,5 +32,6 @@
 		<td><%= producto[4] %></td>
 		<td><%= producto[5] %></td>
 		<td><%= producto[6] %></td>
+		<td><%= producto[7] %></td>
 	</tr>
 <% end %>

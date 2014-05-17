@@ -124,5 +124,15 @@ class Almacen
     return 0
   end
   
+  def pedir(sku, cantidad)
+    #TODO
+  end
+  
+  def mover_bodega(id, destino)
+    signature = 'POST'+id+destino
+    aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
+    return HTTParty.post(@@base_uri+"/moveStockBodega",:headers => { "Authorization" => aut},:body => {"almacenId" => destino, "productoId" => id}) 
+  end
+  
 end
 
