@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140511214146) do
+ActiveRecord::Schema.define(version: 20140513202324) do
+
+  create_table "items", primary_key: "sku", force: true do |t|
+    t.string   "marca"
+    t.string   "modelo"
+    t.integer  "precio_internet"
+    t.integer  "precio"
+    t.text     "descripcion"
+    t.string   "imagen"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "productos", force: true do |t|
     t.text     "sku"

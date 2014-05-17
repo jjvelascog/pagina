@@ -1,0 +1,33 @@
+<p>
+  <strong>SKU:</strong>
+  <%= @item.sku %>
+</p>
+ 
+<p>
+  <strong>Marca:</strong>
+  <%= @item.marca %>
+</p>
+
+<p>
+  <strong>Modelo:</strong>
+  <%= @item.modelo %>
+</p>
+
+<p>
+  <strong>Precio Internet:</strong>
+  <%= @item.precio_internet %>
+</p>
+
+<p>
+  <strong>Precio:</strong>
+  <%= @item.precio %>
+</p>
+
+<p>
+  <strong>Descripción:</strong>
+<%= @item.descripcion %>
+</p>
+
+<img src =<%= @item.imagen %>></img>
+
+<%= link_to 'Back', items_path %>
