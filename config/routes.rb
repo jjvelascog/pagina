@@ -1,11 +1,8 @@
 Pagina::Application.routes.draw do
 
-<<<<<<< HEAD
-  resources :items
+resources :items
 
-=======
   get "api/pedirProducto"
->>>>>>> bb4c3f0c9dc216b1a3565e660b05b05de6f40b10
   root 'welcome#index'
   #get "welcome/index"
   
@@ -16,15 +13,14 @@ Pagina::Application.routes.draw do
   get "reservas/actualizar" => "reservas#actualizar"
   get "reservas" => "reservas#index", as: 'all_reservas'
   
-<<<<<<< HEAD
   get "productos" => "productos#index"
 
   get "welcome/cargarJson"
-=======
-  get "productos/actualizar" => "productos#actualizar"
+
+    get "productos/actualizar" => "productos#actualizar"
   get "productos" => "productos#index", as: 'all_productos'
->>>>>>> bb4c3f0c9dc216b1a3565e660b05b05de6f40b10
-  # This line mounts Spree's routes at the root of your application.
+
+# This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
   # If you would like to change where this engine is mounted, simply change the :at option to something different.
   #
