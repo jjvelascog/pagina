@@ -1,0 +1,22 @@
+<h1>Listing items</h1>
+ 
+<table>
+  <tr>
+    <th>SKU</th>
+    <th>Marca</th>
+    <th>Modelo</th>
+    <th>Precio Internet</th>
+    <th>Precio</th>
+  </tr>
+ 
+  <% @items.each do |item| %>
+    <tr>
+      <td><%= item.sku %></td>
+      <td><%= item.marca %></td>
+      <td><%= item.modelo %></td>
+      <td><%= item.precio_internet %></td>
+      <td><%= item.precio %></td>
+      <td><%= link_to 'Show', item_path(item) %></td>
+    </tr>
+  <% end %>
+</table>
