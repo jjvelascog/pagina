@@ -6,8 +6,9 @@ class ProductosController < ApplicationController
   	require "sqlite3"
     require 'csv'
     require 'date'
-
-    text=File.open('pricing/Pricing.csv').read
+    
+    filepath = "#{Rails.root}/pricing/Pricing.csv"
+    text=File.open(filepath).read
 
 
     Producto.transaction do
