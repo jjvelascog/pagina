@@ -20,16 +20,26 @@ class PedidosController < ApplicationController
     @show_rut = pedido['Pedidos'][0]['rut'][0]
     @show_productos = []
     
-    n = 0
     pedido['Pedidos'][0]['Pedido'].each do |aux|
+      
+      stock = almacen.get_stock(aux['sku'][0].strip)
+      cantidad_pedida = aux['cantidad'][0]['content'].to_f
+      
       #Tania Revisar si existen los productos (ver sku)
-      n += 1
       sku=aux['sku'][0].strip
-      break if Producto.where(sku: sku).count==0 #Si el sku no existe, se salta ese pedido
+      if Producto.where(sku: sku).count==0 #Si el sku no existe, se salta ese pedido
+        producto = [sku,cantidad_pedida,stock,"el producto no exite", "","","",false]
+        @show_productos << producto
+        break
+      end
       
       #Tania Validar que precio esté vigente
       fecha_vig=Producto.where(sku: sku).order(:fechavig).last[:fechavig]
-      break if fecha_vig < DateTime.now.strftime('%m/%d/%Y')
+      if fecha_vig < DateTime.now.strftime('%m/%d/%Y')
+        producto = [sku,cantidad_pedida,stock,"precio no vigente", "","","",false]
+        @show_productos << producto
+        break
+      end
   
       precio = Producto.where(sku: sku).first[:precio] #tania
       #TODO Guardar en el DW si se pide un producto que no está?
@@ -53,7 +63,6 @@ class PedidosController < ApplicationController
       
       stock_disponible = stock-total_reservas+reserva_tuya     
       cantidad_despachada = 0
-	    cantidad_pedida = aux['cantidad'][0]['content'].to_f
 	  
       if(reserva_tuya == 0)
         if(stock_disponible > cantidad_pedida)
@@ -64,7 +73,7 @@ class PedidosController < ApplicationController
       else
         if(stock < cantidad_pedida)
           #Quiebra
-          Thread.new{pedir_a_otra_bodega(sku,cantidad_pedida,n)}
+          Thread.new{pedir_a_otra_bodega(sku,cantidad_pedida)}
           solicitud_otros = true
         else
           if(reserva_tuya > cantidad_pedida)
@@ -90,7 +99,7 @@ class PedidosController < ApplicationController
     #Guardar en data Warehouse #TODO Juan Jose
   end
   
-  def pedir_a_otra_bodega(sku, cantidad,n)
+  def pedir_a_otra_bodega(sku, cantidad)
     almacen2 = Almacen.new()
     almacen2.pedir(sku, cantidad)
   end
