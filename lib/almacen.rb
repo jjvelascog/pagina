@@ -134,5 +134,42 @@ class Almacen
     return HTTParty.post(@@base_uri+"/moveStockBodega",:headers => { "Authorization" => aut},:body => {"almacenId" => destino, "productoId" => id}) 
   end
   
+  def despachar_a_otros(sku, cantidad, destino)
+    cantidadDespachada = 0
+    
+    cantidadMain = self.stock(sku,@main)
+    cantidadPulmon = self.stock(sku,@pulmon)
+    
+    while cantidadDespachada < cantidad do
+      if(cantidadPulmon != 0)
+        id = self.first(sku,@pulmon)
+        
+        res1 = self.mover(id,@despacho)
+        res2 = self.mover_bodega(id,destino)
+        if(res2.code != 200)
+          self.mover(id,@pulmon)
+          break
+        end
+        cantidadPulmon -= 1
+        cantidadDespachada += 1
+      elsif(cantidadMain != 0)
+        id = self.first(sku,@main)
+        
+        res1 = self.mover(id,@despacho)
+        res2 = self.mover_bodega(id,destino)
+        if(res2.code != 200)
+          self.mover(id,@main)
+          break
+        end
+        self.sacarDePulmon()
+        cantidadMain -= 1
+        cantidadDespachada += 1
+      else
+        break
+      end  
+    end
+    return cantidadDespachada
+  end
+  
 end
 
