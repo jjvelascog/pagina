@@ -125,7 +125,19 @@ class Almacen
   end
   
   def pedir(sku, cantidad)
-    #TODO
+    #TODO Probar
+    cantidad_recibida = 0
+    if (cantidad_recibida < cantidad)
+      response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProducto",:headers => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      cantidad_recibida += response[0]["cantidad"]
+    end
+    if (cantidad_recibida < cantidad)
+      response = HTTParty.post("http://integra5.ing.puc.cl/api/v1/pedirProducto",:headers => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
+      cantidad_recibida += response[0]["cantidad"]
+    end
+    
+    #TODO JuanJose guarda en mongo
+    
   end
   
   def mover_bodega(id, destino)
