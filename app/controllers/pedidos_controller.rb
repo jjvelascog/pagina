@@ -9,9 +9,13 @@ class PedidosController < ApplicationController
   	pedido = session[:tmp_pedido]
   	@show_pedido = pedido
   	session[:tmp_pedido] = nil
+	
+	pedidoId = session[:tmp_pedidoid]
+	@show_archivo = pedidoId
+  	session[:tmp_pedidoid] = nil
     
     address = Vtiger.get_address_from_rut(pedido['Pedidos'][0]['rut'][0])
-    pedidoId = "no hay" #TODO Nacho obtener Id del pedido
+    
     @show_adress = address
     @show_rut = pedido['Pedidos'][0]['rut'][0]
     @show_productos = []
