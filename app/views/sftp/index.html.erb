@@ -1,6 +1,7 @@
 <h1>Lector de XMLs</h1>
 
-
+<%= @numArray %>
+<p><%= @mensajeFinal %></p>
 <% @xmlArray.each do |xml_info| %>
 	<p><%= @fileArray.shift %> [<%= xml_info['Pedidos'][0]['fecha'][0] %> - <%= xml_info['Pedidos'][0]['hora'] %>] 
 	Rut: <%= xml_info['Pedidos'][0]['rut'][0] %> - 
