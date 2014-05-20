@@ -134,7 +134,7 @@ class Almacen
       response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProductos",:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
       if (response.code == 200 and response.key?(0) and response[0].key?("cantidad"))
         cantidad_recibida += response[0]["cantidad"]
-        Pedido_Bodega.create(id_bodega: 9, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
+        Pedido_bodega.create(id_bodega: 9, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
       end
     end
     # funciona
@@ -142,7 +142,7 @@ class Almacen
       response = HTTParty.post("http://integra5.ing.puc.cl:8080/api/v1/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         cantidad_recibida += response["cantidad"]
-        Pedido_Bodega.create(id_bodega: 5, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
+        Pedido_bodega.create(id_bodega: 5, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
       end
     end
     puts cantidad_recibida

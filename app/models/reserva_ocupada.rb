@@ -1,6 +1,6 @@
 require 'mongoid'
 
-class ReservaOcupada
+class Reserva_ocupada
 
   include Mongoid::Document
   store_in collection: "reservas_ocupadas", database: "dw", session: "default"

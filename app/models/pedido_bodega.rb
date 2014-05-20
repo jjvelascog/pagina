@@ -1,6 +1,6 @@
 require 'mongoid'
 
-class PedidoBodega
+class Pedido_bodega
 
   include Mongoid::Document
   store_in collection: "pedidos_bodegas", database: "dw", session: "default"

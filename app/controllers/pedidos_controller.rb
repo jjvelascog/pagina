@@ -21,7 +21,7 @@ class PedidosController < ApplicationController
     @show_productos = []
 
     #guardar pedido en dw
-    Pedido_Cliente.create(rut: @show_rut, pedidoId: pedidoId, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), direccion: address)
+    Pedido_cliente.create(rut: @show_rut, pedidoId: pedidoId, fecha: Date.today, direccion: address)
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
       
@@ -91,14 +91,14 @@ class PedidosController < ApplicationController
             #guardar pedido enviado en dw
             Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
             #guardar reservas ocupadas en dw
-            Reserva_Ocupada.create(sku, cantidad_pedida, pedidoId)
+            Reserva_ocupada.create(sku, cantidad_pedida, pedidoId)
           elsif(reserva_tuya == cantidad_pedida)  
             reserva_propia.destroy
             cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
             #guardar pedido enviado en dw
             Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
             #guardar reservas ocupadas en dw
-            Reserva_Ocupada.create(sku, cantidad_pedida, pedidoId)
+            Reserva_ocupada.create(sku, cantidad_pedida, pedidoId)
           else
             if(stock_disponible >= cantidad_pedida)
               reserva_propia.destroy
@@ -106,7 +106,7 @@ class PedidosController < ApplicationController
               #guardar pedido enviado en dw
               Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
               #guardar reservas ocupadas en dw
-              Reserva_Ocupada.create(sku, cantidad_pedida, reserva_tuya)
+              Reserva_ocupada.create(sku, cantidad_pedida, reserva_tuya)
             else
               #Quiebra
               Quebrado.create(sku: sku, cantidad: cantidad_pedida, pedidoId: pedidoId)
