@@ -128,12 +128,20 @@ class Almacen
   end
   
   def pedir(sku, cantidad)
-    #TODO Probar
+    #funciona
     cantidad_recibida = 0
     if (cantidad_recibida < cantidad)
+      response = HTTParty.post("http://integra2.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      if (response.code == 200 and response.key?("cantidad"))
+        cantidad_recibida += response["cantidad"]
+        #Pedido_bodega.create(id_bodega: 9, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
+      end
+    end
+    #TODO Probar
+    if (cantidad_recibida < cantidad)
       response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProductos",:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
-      if (response.code == 200 and response.key?(0) and response[0].key?("cantidad"))
-        cantidad_recibida += response[0]["cantidad"]
+      if (response.code == 200 and response.key?("cantidad"))
+        cantidad_recibida += response["cantidad"]
         #Pedido_bodega.create(id_bodega: 9, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
       end
     end
