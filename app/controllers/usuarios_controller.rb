@@ -31,5 +31,15 @@ class UsuariosController < ApplicationController
     r.username = "grupo1"
     r.password = "6d32b1c68191c32b0d8203aae385b77ded18ed49"
     r.save
+    
+    r = BodegasVecinas.new
+    r.username = "grupo2"
+    r.password = "b0399d2029f64d445bd131ffaa399a42d2f8e7dc"
+    r.save
+    
+    r = BodegasVecinas.new
+    r.username = "grupo8"
+    r.password = "38ad9f62751631f10928911f0272eb2ded8fbc39"
+    r.save
   end
 end
