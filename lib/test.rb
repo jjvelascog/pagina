@@ -8,8 +8,9 @@ almacen = Almacen.new()
 
 
 despacho = "53571d16682f95b80b7685b7"
+pulmon = "53571d1c682f95b80b76e5e9"
 
-puts skus = almacen.get_skus(despacho)
+puts skus = almacen.get_skus(pulmon)
 
 #almacen.despejarRecepcion
 #puts almacen.pedir(2419210,2)
