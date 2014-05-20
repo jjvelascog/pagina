@@ -18,9 +18,7 @@ resources :items
 
   get "welcome/cargarJson"
 
-  get "welcome/pruebaDW"
-
-    get "productos/actualizar" => "productos#actualizar"
+  get "productos/actualizar" => "productos#actualizar"
   get "productos" => "productos#index", as: 'all_productos'
 
 # This line mounts Spree's routes at the root of your application.

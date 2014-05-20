@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id_bodega: 
+  fecha: 
+  sku: 
+  cantidad: 
+  cantidad_recibida:
+
+two:
+  id_bodega: 
+  fecha: 
+  sku: 
+  cantidad: 
+  cantidad_recibida:
