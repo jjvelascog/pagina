@@ -18,6 +18,8 @@ resources :items
 
   get "welcome/cargarJson"
 
+  get "welcome/pruebaDW"
+
     get "productos/actualizar" => "productos#actualizar"
   get "productos" => "productos#index", as: 'all_productos'
 
