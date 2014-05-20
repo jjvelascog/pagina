@@ -10,6 +10,9 @@ almacen = Almacen.new()
 despacho = "53571d16682f95b80b7685b5"
 
 puts skus = almacen.get_skus(despacho)
+
+almacen.despejarRecepcion
+#puts almacen.pedir(2419210,2)
 #puts sku = skus[0]['_id']
 #puts id = almacen.first(skus[0]['_id'],despacho)
 
