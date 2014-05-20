@@ -43,6 +43,7 @@ class Almacen
   
   def despachar(sku, cantidad, direccion, precio, pedidoId)
     cantidadDespachada = 0
+    costo = 0
     
     cantidadMain = self.stock(sku,@main)
     cantidadPulmon = self.stock(sku,@pulmon)
@@ -57,6 +58,7 @@ class Almacen
           self.mover(id,@pulmon)
           break
         end
+        costo += res2["costo"].to_i
         cantidadPulmon -= 1
         cantidadDespachada += 1
       elsif(cantidadMain != 0)
@@ -68,6 +70,7 @@ class Almacen
           self.mover(id,@main)
           break
         end
+        costo += res2["costo"].to_i
         self.sacarDePulmon()
         cantidadMain -= 1
         cantidadDespachada += 1
@@ -75,7 +78,7 @@ class Almacen
         break
       end  
     end
-    return cantidadDespachada
+    return [cantidadDespachada,costo]
   end
   
   def mover(id, destino)

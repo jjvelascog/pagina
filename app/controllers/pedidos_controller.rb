@@ -73,7 +73,7 @@ class PedidosController < ApplicationController
 	  
       if(reserva_tuya == 0)
         if(stock_disponible > cantidad_pedida)
-          cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+          cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
           db.collection.update(
             {pedidoId = 'pedidoId'},
             {
@@ -106,7 +106,7 @@ class PedidosController < ApplicationController
           if(reserva_tuya > cantidad_pedida)
             reserva_propia.first.cantidad -= cantidad_pedida
             reserva_propia.first.save
-            cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
             db.collection.update(
               {pedidoId = 'pedidoId'},
               {
@@ -117,7 +117,7 @@ class PedidosController < ApplicationController
             )
           elsif(reserva_tuya == cantidad_pedida)  
             reserva_propia.destroy
-            cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
             db.collection.update(
               {pedidoId = 'pedidoId'},
               {
@@ -129,7 +129,7 @@ class PedidosController < ApplicationController
           else
             if(stock_disponible >= cantidad_pedida)
               reserva_propia.destroy
-              cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+              cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
               db.collection.update(
                 {pedidoId = 'pedidoId'},
                 {
