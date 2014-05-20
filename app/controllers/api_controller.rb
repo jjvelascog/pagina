@@ -16,7 +16,7 @@ protect_from_forgery with: :null_session
     respuesta=alm.despachar_a_otros(sku,cantidad,almacen_id)
     if respuesta>0
       render json: {sku: sku, cantidad: respuesta} and return
-    elsif respuesta == 0
+    else
       render json: {error: "No hay stock disponible"} and return
     end
 
