@@ -1,6 +1,4 @@
- #every 1.minute do
- #  runner "Producto.metodo"
- #end
+
 
 set :output, 'tmp/whenever.log'
 set :environment, 'development' 
@@ -23,6 +21,14 @@ end
 
 
 
-#every 1.day, :at => '18:05 pm' do
-#	runner "Metodo_sftp.index"
-#end
+every 1.day, :at => '18:32 pm' do
+	runner "Producto.leeraccess"
+end
+
+every 1.day, :at => '18:34 pm' do
+	runner "Producto.actualizar"
+end
+
+every 1.day, :at => '18:39 pm' do
+	runner "Reserva.actualizar"
+end
