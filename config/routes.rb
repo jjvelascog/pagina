@@ -1,5 +1,6 @@
 Pagina::Application.routes.draw do
 
+  get "usuarios/actualizar"
 resources :items
 
   post "api/pedirProducto" => "api#pedirProducto"
