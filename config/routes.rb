@@ -2,7 +2,7 @@ Pagina::Application.routes.draw do
 
 resources :items
 
-  get "api/pedirProducto"
+  post "api/pedirProducto" => "api#pedirProducto"
   root 'welcome#index'
   #get "welcome/index"
   
