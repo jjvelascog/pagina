@@ -96,13 +96,6 @@ class PedidosController < ApplicationController
             reserva_propia.destroy
             cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
             db.collection.update(
-              {pedidoId = 'pedidoId'},
-              {
-                $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
-                $push: {reserva_ocupada : {sku: 'sku', cantidad: 'cantidad_pedida'}}
-                $push: {reservas_disponibles : {sku: 'sku', cantidad: 0}}
-              }
-            )
             #guardar pedido enviado en dw
             Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
             #guardar reservas ocupadas en dw
@@ -111,14 +104,6 @@ class PedidosController < ApplicationController
             if(stock_disponible >= cantidad_pedida)
               reserva_propia.destroy
               cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
-              db.collection.update(
-                {pedidoId = 'pedidoId'},
-                {
-                  $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
-                  $push: {reserva_ocupada : {sku: 'sku', cantidad: 'reserva_tuya'}}
-                  $push: {reservas_disponibles : {sku: 'sku', cantidad: 0}}
-                }
-              )
               #guardar pedido enviado en dw
               Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
               #guardar reservas ocupadas en dw
