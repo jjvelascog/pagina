@@ -20,12 +20,8 @@ class PedidosController < ApplicationController
     @show_rut = pedido['Pedidos'][0]['rut'][0]
     @show_productos = []
 
-    db.collection.save(
-      {
-      pedidoId: 'pedidoId',
-      rut_cliente: '@show_rut'
-      }
-    )
+    #guardar pedido en dw
+    Pedido_Cliente.create(rut: @show_rut, pedidoId: pedidoId, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), direccion: address)
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
       
@@ -74,32 +70,17 @@ class PedidosController < ApplicationController
       if(reserva_tuya == 0)
         if(stock_disponible > cantidad_pedida)
           cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
-          db.collection.update(
-            {pedidoId = 'pedidoId'},
-            {
-              $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo: 'normal'}}
-            }
-          )
+          #guardar producto enviado en dw
+          Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
         else
           #Quiebra
-          db.collection.update(
-            {pedidoId = 'pedidoId'},
-            {
-              $set: {status: 'quebrado'}
-              $push: {no_enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo: 'normal'}}
-            }
-          )
+          #guardar producto quebrado en dw
+          Quebrado.create(sku: sku, cantidad: cantidad_pedida, pedidoId: pedidoId)
         end
       else
         if(stock < cantidad_pedida)
           #Quiebra
-          db.collection.update(
-            {pedidoId = 'pedidoId'},
-            {
-              $set: {status: 'quebrado'}
-              $push: {no_enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
-            }
-          )
+          Quebrado.create(sku: sku, cantidad: cantidad_pedida, pedidoId: pedidoId)
           Thread.new{pedir_a_otra_bodega(sku,cantidad_pedida)}
           solicitud_otros = true
         else
@@ -107,14 +88,10 @@ class PedidosController < ApplicationController
             reserva_propia.first.cantidad -= cantidad_pedida
             reserva_propia.first.save
             cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
-            db.collection.update(
-              {pedidoId = 'pedidoId'},
-              {
-                $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
-                $push: {reservas_ocupadas : {sku: 'sku', cantidad: 'cantidad_pedida'}}
-                $push: {reservas_disponibles : {sku: 'sku', cantidad: 'reserva_tuya-cantidad_pedida'}}
-              }
-            )
+            #guardar pedido enviado en dw
+            Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
+            #guardar reservas ocupadas en dw
+            Reserva_Ocupada.create(sku, cantidad_pedida, pedidoId)
           elsif(reserva_tuya == cantidad_pedida)  
             reserva_propia.destroy
             cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
@@ -126,6 +103,10 @@ class PedidosController < ApplicationController
                 $push: {reservas_disponibles : {sku: 'sku', cantidad: 0}}
               }
             )
+            #guardar pedido enviado en dw
+            Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
+            #guardar reservas ocupadas en dw
+            Reserva_Ocupada.create(sku, cantidad_pedida, pedidoId)
           else
             if(stock_disponible >= cantidad_pedida)
               reserva_propia.destroy
@@ -138,15 +119,13 @@ class PedidosController < ApplicationController
                   $push: {reservas_disponibles : {sku: 'sku', cantidad: 0}}
                 }
               )
+              #guardar pedido enviado en dw
+              Pedido.create(sku: sku, cantidad: cantidad_pedida, precio: precio, pedidoId: pedidoId)
+              #guardar reservas ocupadas en dw
+              Reserva_Ocupada.create(sku, cantidad_pedida, reserva_tuya)
             else
               #Quiebra
-              db.collection.update(
-              {pedidoId = 'pedidoId'},
-              {
-                $set: {status: 'quebrado'}
-                $push: {no_enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
-              }
-            )
+              Quebrado.create(sku: sku, cantidad: cantidad_pedida, pedidoId: pedidoId)
             end        
           end      
         end
@@ -160,13 +139,5 @@ class PedidosController < ApplicationController
   def pedir_a_otra_bodega(sku, cantidad)
     almacen2 = Almacen.new()
     almacen2.pedir(sku, cantidad)
-    db.collection.save(
-      {
-        tipo: 'pedido bodega',
-        sku: 'sku',
-        cantidad: 'cantidad'
-      }
-    )
-
   end
 end

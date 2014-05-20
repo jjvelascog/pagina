@@ -11,8 +11,4 @@ class WelcomeController < ApplicationController
    		end
    		redirect_to items_path
 	end
-
-	def pruebaDW
-		Pedido.create(sku: 5, cantidad: 2, PedidoId: 43)
-	end
 end
