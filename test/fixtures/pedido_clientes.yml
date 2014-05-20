@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rut: 
+  pedidoId:
+  fecha: 
+  direccion: 
+
+two:
+  rut: 
+  pedidoId:
+  fecha: 
+  direccion: 
