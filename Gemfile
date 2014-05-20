@@ -54,3 +54,7 @@ gem 'google_drive','0.3.9'
 gem 'httparty','0.13.1'
 gem 'xml-simple', '1.1.3'
 gem 'net-sftp', '2.1.2'
+
+gem 'bson', '~> 2.2.3'
+
+gem 'mongoid', '~> 4.0.0.beta1'
