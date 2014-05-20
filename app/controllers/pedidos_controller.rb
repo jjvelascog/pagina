@@ -19,12 +19,19 @@ class PedidosController < ApplicationController
     @show_adress = address
     @show_rut = pedido['Pedidos'][0]['rut'][0]
     @show_productos = []
+
+    db.collection.save(
+      {
+      pedidoId: 'pedidoId',
+      rut_cliente: '@show_rut'
+      }
+    )
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
       
       stock = almacen.get_stock(aux['sku'][0].strip)
       cantidad_pedida = aux['cantidad'][0]['content'].to_f
-      
+
       #Tania Revisar si existen los productos (ver sku)
       sku=aux['sku'][0].strip
       if Producto.where(sku: sku).count==0 #Si el sku no existe, se salta ese pedido
@@ -67,12 +74,32 @@ class PedidosController < ApplicationController
       if(reserva_tuya == 0)
         if(stock_disponible > cantidad_pedida)
           cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+          db.collection.update(
+            {pedidoId = 'pedidoId'},
+            {
+              $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo: 'normal'}}
+            }
+          )
         else
           #Quiebra
+          db.collection.update(
+            {pedidoId = 'pedidoId'},
+            {
+              $set: {status: 'quebrado'}
+              $push: {no_enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo: 'normal'}}
+            }
+          )
         end
       else
         if(stock < cantidad_pedida)
           #Quiebra
+          db.collection.update(
+            {pedidoId = 'pedidoId'},
+            {
+              $set: {status: 'quebrado'}
+              $push: {no_enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
+            }
+          )
           Thread.new{pedir_a_otra_bodega(sku,cantidad_pedida)}
           solicitud_otros = true
         else
@@ -80,15 +107,46 @@ class PedidosController < ApplicationController
             reserva_propia.first.cantidad -= cantidad_pedida
             reserva_propia.first.save
             cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            db.collection.update(
+              {pedidoId = 'pedidoId'},
+              {
+                $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
+                $push: {reservas_ocupadas : {sku: 'sku', cantidad: 'cantidad_pedida'}}
+                $push: {reservas_disponibles : {sku: 'sku', cantidad: 'reserva_tuya-cantidad_pedida'}}
+              }
+            )
           elsif(reserva_tuya == cantidad_pedida)  
             reserva_propia.destroy
             cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            db.collection.update(
+              {pedidoId = 'pedidoId'},
+              {
+                $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
+                $push: {reserva_ocupada : {sku: 'sku', cantidad: 'cantidad_pedida'}}
+                $push: {reservas_disponibles : {sku: 'sku', cantidad: 0}}
+              }
+            )
           else
             if(stock_disponible >= cantidad_pedida)
               reserva_propia.destroy
               cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+              db.collection.update(
+                {pedidoId = 'pedidoId'},
+                {
+                  $push: {enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
+                  $push: {reserva_ocupada : {sku: 'sku', cantidad: 'reserva_tuya'}}
+                  $push: {reservas_disponibles : {sku: 'sku', cantidad: 0}}
+                }
+              )
             else
               #Quiebra
+              db.collection.update(
+              {pedidoId = 'pedidoId'},
+              {
+                $set: {status: 'quebrado'}
+                $push: {no_enviados : {sku: 'sku', cantidad: 'cantidad_pedida', precio: 'precio', tipo:'reserva'}}
+              }
+            )
             end        
           end      
         end
@@ -102,5 +160,13 @@ class PedidosController < ApplicationController
   def pedir_a_otra_bodega(sku, cantidad)
     almacen2 = Almacen.new()
     almacen2.pedir(sku, cantidad)
+    db.collection.save(
+      {
+        tipo: 'pedido bodega',
+        sku: 'sku',
+        cantidad: 'cantidad'
+      }
+    )
+
   end
 end
