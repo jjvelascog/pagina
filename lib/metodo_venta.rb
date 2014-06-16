@@ -15,18 +15,21 @@ class Metodo_venta
     @show_adress = address
     @show_rut = pedido['Pedidos'][0]['rut'][0]
     @show_productos = []
+
+    #guardar pedido en dw
+    #Pedido_cliente.create(rut: @show_rut, pedidoId: pedidoId, fecha: Date.today, direccion: address)
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
       
       stock = almacen.get_stock(aux['sku'][0].strip)
       cantidad_pedida = aux['cantidad'][0]['content'].to_f
-      
+
       #Tania Revisar si existen los productos (ver sku)
       sku=aux['sku'][0].strip
       if Producto.where(sku: sku).count==0 #Si el sku no existe, se salta ese pedido
         producto = [sku,cantidad_pedida,stock,"el producto no exite", "","","",""]
         @show_productos << producto
-        next
+        break
       end
       
       #Tania Validar que precio esté vigente
@@ -34,7 +37,7 @@ class Metodo_venta
       if fecha_vig < DateTime.now.strftime('%m/%d/%Y')
         producto = [sku,cantidad_pedida,stock,"precio no vigente", "","","",""]
         @show_productos << producto
-        next
+        break
       end
   
       precio = Producto.where(sku: sku).first[:precio] #tania
@@ -83,7 +86,9 @@ class Metodo_venta
             end
           else
             solicitud_otros = almacen.pedir(sku,cantidad_pedida-stock_disponible)
-            cantidad_despachada = almacen.despachar(sku,[reserva_tuya,stock_disponible+solicitud_otros].max, address, precio, pedidoId)[0]    
+            respo = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = respo[0]
+            costo = respo[1]    
             reserva_propia.first.cantidad -= cantidad_despachada
             reserva_propia.first.save
             if (reserva_propia.first.cantidad <= 0)

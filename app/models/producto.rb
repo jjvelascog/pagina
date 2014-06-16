@@ -28,7 +28,7 @@ class Producto < ActiveRecord::Base
 
 	def self.leeraccess
 		Dir.chdir ("#{Rails.root}/pricing/")
-		system("/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java -jar access2csv.jar DBPrecios40.accdb")
+		system("/usr/lib/jvm/java-7-oracle/jre/bin/java -jar access2csv.jar ~/Dropbox/Grupo4/DBPrecios.accdb")
 	end
 
 	def self.metodo
