@@ -47,6 +47,7 @@ class Almacen
     
     cantidadMain = self.stock(sku,@main)
     cantidadPulmon = self.stock(sku,@pulmon)
+    cantidadRecepcion = self.stock(sku,@recepcion)
     
     while cantidadDespachada < cantidad do
       if(cantidadPulmon != 0)
@@ -55,11 +56,25 @@ class Almacen
         res1 = self.mover(id,@despacho)
         res2 = self.borrar(id,direccion, precio, pedidoId)
         if(res2.code != 200)
-          self.mover(id,@pulmon)
+          puts "pulmon #{res2}"
+          self.mover(id,@main)
           break
         end
         costo += res2["costo"].to_i
         cantidadPulmon -= 1
+        cantidadDespachada += 1
+      elsif(cantidadRecepcion != 0)
+        id = self.first(sku,@recepcion)
+        
+        res1 = self.mover(id,@despacho)
+        res2 = self.borrar(id,direccion, precio, pedidoId)
+        if(res2.code != 200)
+          puts "recepcion #{res2}"
+          self.mover(id,@recepcion)
+          break
+        end
+        costo += res2["costo"].to_i
+        cantidadRecepcion -= 1
         cantidadDespachada += 1
       elsif(cantidadMain != 0)
         id = self.first(sku,@main)
@@ -67,11 +82,12 @@ class Almacen
         res1 = self.mover(id,@despacho)
         res2 = self.borrar(id,direccion, precio, pedidoId)
         if(res2.code != 200)
+          puts "main #{res2.code}"
           self.mover(id,@main)
           break
         end
         costo += res2["costo"].to_i
-        self.sacarDePulmon()
+        #self.sacarDePulmon()
         cantidadMain -= 1
         cantidadDespachada += 1
       else
@@ -153,10 +169,10 @@ class Almacen
         #Pedido_bodega.create(id_bodega: 5, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
       end
     end
-    puts cantidad_recibida
+    
     self.despejarRecepcion
     #TODO JuanJose guarda en mongo
-    
+    return cantidad_recibida
   end
   
   def mover_bodega(id, destino)
