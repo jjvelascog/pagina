@@ -58,3 +58,5 @@ gem 'net-sftp', '2.1.2'
 gem 'bson', '~> 2.2.3'
 
 gem 'mongoid', '~> 4.0.0.beta1'
+
+gem 'bunny', '~> 1.2.2'
