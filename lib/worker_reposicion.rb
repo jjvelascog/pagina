@@ -33,6 +33,9 @@ begin
 		puts " [o] almaceId: #{almacenId}"
 		
 		#logica de reposicion
+		almacen = Almacen.new()
+    almacen.despejarRecepcion
+    #TODO actualizar tabla spree
 		sleep 5
 		
 		puts " [x] Reposicion Procesada"
