@@ -11,6 +11,7 @@ class ProductosController < ApplicationController
 
   def index
     #Producto.actualizar
+   
   end
 
 
