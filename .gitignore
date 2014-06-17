@@ -18,3 +18,4 @@ script
 script/rails
 lib/test.rb
 db/schema.rb
+public/spree/products
