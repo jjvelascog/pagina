@@ -18,6 +18,10 @@ resources :items
 
   get "welcome/cargarJson"
 
+  get "welcome/cargarSpree"
+
+  get "welcome/prueba"
+
   get "productos/actualizar" => "productos#actualizar"
   get "productos" => "productos#index", as: 'all_productos'
 
