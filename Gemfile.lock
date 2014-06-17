@@ -59,6 +59,7 @@ GEM
       tzinfo (~> 0.3.37)
     acts_as_list (0.3.0)
       activerecord (>= 3.0)
+    amq-protocol (1.9.2)
     arel (4.0.2)
     awesome_nested_set (3.0.0.rc.5)
       activerecord (>= 4.0.0, < 5)
@@ -70,6 +71,8 @@ GEM
     bcrypt (3.1.7-x86-mingw32)
     bson (2.2.3)
     builder (3.1.4)
+    bunny (1.2.2)
+      amq-protocol (>= 1.9.2)
     cancan (1.6.10)
     canonical-rails (0.0.7)
       rails (>= 3.1, < 5.0)
@@ -307,6 +310,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson (~> 2.2.3)
+  bunny (~> 1.2.2)
   coffee-rails (~> 4.0.0)
   google_drive (= 0.3.9)
   httparty (= 0.13.1)

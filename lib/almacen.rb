@@ -47,6 +47,7 @@ class Almacen
     
     cantidadMain = self.stock(sku,@main)
     cantidadPulmon = self.stock(sku,@pulmon)
+    cantidadRecepcion = self.stock(sku,@recepcion)
     
     while cantidadDespachada < cantidad do
       if(cantidadPulmon != 0)
@@ -55,11 +56,25 @@ class Almacen
         res1 = self.mover(id,@despacho)
         res2 = self.borrar(id,direccion, precio, pedidoId)
         if(res2.code != 200)
-          self.mover(id,@pulmon)
+          puts "pulmon #{res2}"
+          self.mover(id,@main)
           break
         end
         costo += res2["costo"].to_i
         cantidadPulmon -= 1
+        cantidadDespachada += 1
+      elsif(cantidadRecepcion != 0)
+        id = self.first(sku,@recepcion)
+        
+        res1 = self.mover(id,@despacho)
+        res2 = self.borrar(id,direccion, precio, pedidoId)
+        if(res2.code != 200)
+          puts "recepcion #{res2}"
+          self.mover(id,@recepcion)
+          break
+        end
+        costo += res2["costo"].to_i
+        cantidadRecepcion -= 1
         cantidadDespachada += 1
       elsif(cantidadMain != 0)
         id = self.first(sku,@main)
@@ -67,11 +82,12 @@ class Almacen
         res1 = self.mover(id,@despacho)
         res2 = self.borrar(id,direccion, precio, pedidoId)
         if(res2.code != 200)
+          puts "main #{res2.code}"
           self.mover(id,@main)
           break
         end
         costo += res2["costo"].to_i
-        self.sacarDePulmon()
+        #self.sacarDePulmon()
         cantidadMain -= 1
         cantidadDespachada += 1
       else
@@ -128,12 +144,20 @@ class Almacen
   end
   
   def pedir(sku, cantidad)
-    #TODO Probar
+    #funciona
     cantidad_recibida = 0
     if (cantidad_recibida < cantidad)
+      response = HTTParty.post("http://integra2.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      if (response.code == 200 and response.key?("cantidad"))
+        cantidad_recibida += response["cantidad"]
+        #Pedido_bodega.create(id_bodega: 9, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
+      end
+    end
+    #TODO Probar
+    if (cantidad_recibida < cantidad)
       response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProductos",:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
-      if (response.code == 200 and response.key?(0) and response[0].key?("cantidad"))
-        cantidad_recibida += response[0]["cantidad"]
+      if (response.code == 200 and response.key?("cantidad"))
+        cantidad_recibida += response["cantidad"]
         #Pedido_bodega.create(id_bodega: 9, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
       end
     end
@@ -145,10 +169,10 @@ class Almacen
         #Pedido_bodega.create(id_bodega: 5, fecha: Date.strptime(row[4].strip, "%m/%d/%Y"), sku: sku, cantidad: cantidad, cantidad_recibida: cantidad_recibida)
       end
     end
-    puts cantidad_recibida
+    
     self.despejarRecepcion
     #TODO JuanJose guarda en mongo
-    
+    return cantidad_recibida
   end
   
   def mover_bodega(id, destino)
