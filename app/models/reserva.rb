@@ -23,6 +23,7 @@ class Reserva < ActiveRecord::Base
 	    		r.cantidad = ws[i,3].to_f - ws[i,4].to_f
 	    		r.fecha = fecha
 	    		r.save
+	    		#TODO Actualizar sku en spree
 	  		end
 	  	end
 	  	
@@ -31,12 +32,22 @@ class Reserva < ActiveRecord::Base
 	    seven_days_ago = (now - 7)
 	  	Reserva.all.each do |res|
 	  	  if (res.fecha < seven_days_ago)
+	  	    sku_temp = res.sku
 	  	    res.destroy
-	  	    puts "aqui"
+	  	    #TODO Actualizar sku en spree
 	  	  end
 	  	end
 	  	#redirect_to(all_reservas_path)
 
+	end
+	
+	def self.total_reservas(sku)
+	  total_reservas= 0
+	  reserva = Reserva.where(sku: sku)
+      if(!reserva.empty?)
+        total_reservas = reserva.sum(:cantidad)
+      end
+    return total_reservas
 	end
 	
 end

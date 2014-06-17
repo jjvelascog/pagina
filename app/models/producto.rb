@@ -31,9 +31,9 @@ class Producto < ActiveRecord::Base
 		system("/usr/lib/jvm/java-7-oracle/jre/bin/java -jar access2csv.jar ~/Dropbox/Grupo4/DBPrecios.accdb")
 	end
 
-	def self.metodo
-		File.open("hola.txt", "a") { |file| file.puts("boo!") }
-	end
+
+
+
 
 
 
