@@ -11,6 +11,7 @@ q = ch.queue("reposicion", :auto_delete => true)
 
 ch.prefetch(1)
 puts " [*] Worker de Reposiciones. Salir con CTRL+C"
+puts " [---------------------------------]"
 
 begin
 	consumer = q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, body|

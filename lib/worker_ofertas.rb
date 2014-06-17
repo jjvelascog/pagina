@@ -7,14 +7,15 @@ conn.start
 
 ch = conn.create_channel
 
-q = ch.queue("reposicion", :auto_delete => true)
+q = ch.queue("ofertas", :auto_delete => true)
 
 ch.prefetch(1)
-puts " [*] Worker de Reposiciones. Salir con CTRL+C"
+puts " [*] Worker de Ofertas. Salir con CTRL+C"
+puts " [---------------------------------]"
 
 begin
 	consumer = q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, body|
-		puts " [x] Reposicion Recibida"
+		puts " [x] Oferta Recibida"
 		
 		puts " [x] Body: #{body}"
 		
@@ -25,16 +26,19 @@ begin
 		sku = msg[0].split(':')[1][1..-2].to_s
 		puts " [o] Sku: #{sku}"
 		
-		fecha = msg[1].split(':')[1].to_i
-		puts " [o] Fecha: #{fecha}"
+		precio = msg[1].split(':')[1].to_i
+		puts " [o] Precio: #{precio}"
 		
-		almacenId = msg[2].split(':')[1][1..-2].to_s
-		puts " [o] almaceId: #{almacenId}"
+		inicio = msg[2].split(':')[1].to_i
+		puts " [o] Inicio: #{inicio}"
 		
-		#logica de reposicion
+		fin = msg[3].split(':')[1].to_i
+		puts " [o] Fin: #{fin}"
+		
+		#logica de ofertas
 		sleep 5
 		
-		puts " [x] Reposicion Procesada"
+		puts " [x] Oferta Procesada"
 		ch.ack(delivery_info.delivery_tag)
 		
 		puts " [---------------------------------]"
