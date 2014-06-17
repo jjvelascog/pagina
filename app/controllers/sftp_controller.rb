@@ -1,10 +1,6 @@
 class SftpController < ApplicationController
   def index
-  	respuesta = Metodo_sftp.index
-  	puts respuesta
-	session[:tmp_todo]= respuesta
 	redirect_to pedidos_path
-	
   end
   
   def list

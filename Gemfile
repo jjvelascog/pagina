@@ -59,4 +59,8 @@ gem 'bson', '~> 2.2.3'
 
 gem 'mongoid', '~> 4.0.0.beta1'
 
+
 gem 'twitter'
+
+gem 'bunny', '~> 1.2.2'
+
