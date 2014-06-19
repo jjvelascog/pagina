@@ -15,7 +15,10 @@ class Almacen
 	@@espacio = "totalSpace" 
 	@@usado = "usedSpace" 
 	@@version = "__v"
-	
+
+	def getRecepcion()
+		return @recepcion
+	end
 	def initialize()
 		signature = 'GET'
     aut = @@aut_header+Base64.encode64("#{OpenSSL::HMAC.digest('sha1',@@key, signature)}")
