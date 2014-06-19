@@ -1,0 +1,24 @@
+<h1>Pedidos</h1>
+<Table>
+	<!--
+	<tr>
+		<th>mias:</th>
+		<th><%= @reserva_tuya.inspect %></th>
+		<th>total:</th>
+		<th><%= @total_reservas.inspect %></th>
+	</tr>
+	/-->
+	<tr>
+		<th>ID</th>
+		<th>Rut</th>
+		<th>Fecha</th>
+		<th>Direccion</th>
+	</tr>
+<% Pedido_cliente.all.each do |pedido| %>
+	<tr>
+		<td><%= pedido.pedidoId %></td>
+		<td><%= pedido.rut %></td>
+		<td><%= pedido.fecha %></td>
+		<td><%= pedido.direccion %></td>
+	</tr>
+<% end %>
