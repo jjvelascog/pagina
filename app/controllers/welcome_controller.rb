@@ -56,9 +56,4 @@ class WelcomeController < ApplicationController
     redirect_to root_path
   end
 
-  def CambiarStock(p, c)
-    producto = Spree::Product.find_by_name(p)
-    producto.master.stock_items.first.update_column(:count_on_hand, c)
-  end
-
 end

@@ -38,10 +38,11 @@ class Almacen
 	end
 
 	def get_stock(sku)
-	  return self.stock(sku,@main)+self.stock(sku,@pulmon)
+	  return self.stock(sku,@main)+self.stock(sku,@pulmon)+self.stock(sku,@recepcion)
 	end
   
   def despachar(sku, cantidad, direccion, precio, pedidoId)
+    #Pedido.create(sku: sku, cantidad: cantidad, precio: precio, pedidoId: pedidoId)
     cantidadDespachada = 0
     costo = 0
     
@@ -227,6 +228,7 @@ class Almacen
         cant  = skus[i]['total']
         for i in 1..cant   
           id = self.first(sku,@recepcion)
+          #TODO verificar que main no este lleno
           respuesta = self.mover(id,@main)
           if(respuesta.code != 200)
             break

@@ -64,3 +64,4 @@ gem 'twitter'
 
 gem 'bunny', '~> 1.2.2'
 
+gem 'spree_sale_pricing', :git => 'https://github.com/jjvelascog/spree-sale-pricing.git'

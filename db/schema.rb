@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140519232936) do
+ActiveRecord::Schema.define(version: 20140618140848) do
 
   create_table "bodegas_vecinas", force: true do |t|
     t.string   "username"
@@ -508,6 +508,20 @@ ActiveRecord::Schema.define(version: 20140519232936) do
 
   add_index "spree_roles_users", ["role_id"], name: "index_spree_roles_users_on_role_id"
   add_index "spree_roles_users", ["user_id"], name: "index_spree_roles_users_on_user_id"
+
+  create_table "spree_sale_prices", force: true do |t|
+    t.integer  "price_id"
+    t.float    "value"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.boolean  "enabled"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "spree_sale_prices", ["price_id", "start_at", "end_at", "enabled"], name: "index_active_sale_prices_for_price"
+  add_index "spree_sale_prices", ["price_id"], name: "index_sale_prices_for_price"
+  add_index "spree_sale_prices", ["start_at", "end_at", "enabled"], name: "index_active_sale_prices_for_all_variants"
 
   create_table "spree_shipments", force: true do |t|
     t.string   "tracking"
