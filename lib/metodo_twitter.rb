@@ -1,6 +1,7 @@
 class Metodo_twitter
 require "rubygems"
 require 'sqlite3'
+require 'welcome.rb'
 
 	def self.postTweet(tweet)
 		require 'oauth'
@@ -16,21 +17,27 @@ require 'sqlite3'
 	end
 
 	def self.processOferta(sku_input, precio_input, inicio, fin)
-		#item_input=Item.where(sku: '#{sku_input}')
-		#Item.create!(:sku => "3548644", :precio => 369990, :precio_internet => 329990, :marca => "Apple",:modelo => "iPad Retina 9\" 32 GB Wi-Fi")
-		#item_input=Item.new
+		item_input=Item.find(sku_input)
+
 		sku=sku_input
-		marca="Apple"
-		modelo="iPad Retina 9\" 32 GB Wi-Fi"
-		precio=369990
-		precio_internet=329990 #consultar en el spree
-		#item_input.save
+		marca=item_input.marca
+		modelo=item_input.modelo
+		#precio=369990
+		precio_internet=item_input.precio_internet
+		if(!precio_internet)
+			precio_internet=Producto.where(sku: sku_input).first.precio
+		elsif(precio_internet<=0)
+			precio_internet=Producto.where(sku: sku_input).first.precio
+
+		end 
+
 
 		fecha_inicio= Date.strptime((inicio/1000).to_s, '%s')
 		fecha_fin= Date.strptime((fin/1000).to_s, '%s')
+		hora_inicio=Time.at(inicio/1000)
+		hora_fin=Time.at(fin/1000)
 
-
-
+		Welcome.CrearPromocion(precio_input, sku_input, hora_inicio, hora_fin)
 		mensaje="OFERTA DEL #{fecha_inicio} AL #{fecha_fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
 
 		postTweet(mensaje)

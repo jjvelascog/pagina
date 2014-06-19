@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative 'almacen.rb'
+require 'almacen.rb'
 require "bunny"
 
 conn = Bunny.new("amqp://nchulytf:-ks2JvgwoLddQfEPW7i7Rwdpo_gij2yq@tiger.cloudamqp.com/nchulytf")
@@ -34,7 +34,7 @@ begin
 		
 		#logica de reposicion
 		almacen = Almacen.new()
-    almacen.despejarRecepcion
+    	almacen.despejarRecepcion
     #TODO actualizar tabla spree
 		sleep 5
 		
