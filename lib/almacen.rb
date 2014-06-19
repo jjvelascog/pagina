@@ -42,6 +42,7 @@ class Almacen
 	end
   
   def despachar(sku, cantidad, direccion, precio, pedidoId)
+    #Pedido.create(sku: sku, cantidad: cantidad, precio: precio, pedidoId: pedidoId)
     cantidadDespachada = 0
     costo = 0
     

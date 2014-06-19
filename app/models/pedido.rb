@@ -8,5 +8,5 @@ class Pedido
   field :sku, type: Integer
   field :cantidad, type: Integer
   field :precio, type: Integer
-  field :PedidoId, type: Integer
+  field :pedidoId, type: Integer
 end

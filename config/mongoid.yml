@@ -9,7 +9,7 @@ development:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost:"integra4.ing.puc.cl"
+        - localhost: "integra4.ing.puc.cl"
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -60,7 +60,7 @@ test:
     default:
       database: dw
       hosts:
-        - localhost:0.0.0.0:27017
+        - localhost: "integra4.ing.puc.cl"
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
