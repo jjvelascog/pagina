@@ -40,13 +40,9 @@ class Metodo_sftp
         #agregar pedidoid a session (pasar a sgte metodo)
         @pedidoId = num.to_s
         @fileArray.push num.to_s
-        
         #abrir archivo
         file = sftp.file.open("/home/grupo4/Pedidos/pedido_#{num.to_s}.xml")
-        
-        file.gets
         @tempXml = file.gets
-      
         #transformar xml
         @tempPedido = XmlSimple.xml_in(@tempXml)
         
