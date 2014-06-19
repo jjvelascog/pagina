@@ -33,7 +33,7 @@ class WelcomeController < ApplicationController
    	for i in 0...100
       if not produco = Spree::Product.find_by_name(texto[i]['modelo'])
    		  p = Spree::Product.create :name => texto[i]['modelo'], :price => texto[i]['precio']['internet'], :description => texto[i]['descripcion'], :sku => texto[i]['sku'], :shipping_category_id => 1, :available_on => Time.now
-     		img = Spree::Image.create(:attachment => open(texto[i]['imagen']), :viewable => p.master)
+     		#img = Spree::Image.create(:attachment => open(texto[i]['imagen']), :viewable => p.master)
         p.taxons << Spree::Taxon.find_by_name(texto[i]['marca'])
         for j in 0..texto[i]['categorias'].length-1
           taxon = Spree::Taxon.find_by_name(texto[i]['categorias'][j])

@@ -3,7 +3,7 @@ class Welcome
   def self.CrearPromocion(precio, sku, hora_inicio, hora_fin)
     variable = Spree::Variant.find_by_sku(sku)
     producto = Spree::Product.find(variable.product_id)
-    producto.put_on_sale(precio, calculator_type = "SpreeCalculator::DollarAmountSalePriceCalculator", all_variants = true, start_at = hora_inicio, end_at = hora_fin, enabled = true)
+    producto.put_on_sale(precio, calculator_type = "Spree::Calculator::DollarAmountSalePriceCalculator", all_variants = true, start_at = hora_inicio, end_at = hora_fin, enabled = true)
   end
 
   def self.CambiarStock(sku, c)
