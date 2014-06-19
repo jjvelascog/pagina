@@ -40,15 +40,26 @@ class Metodo_sftp
         #agregar pedidoid a session (pasar a sgte metodo)
         @pedidoId = num.to_s
         @fileArray.push num.to_s
+		
         #abrir archivo
         file = sftp.file.open("/home/grupo4/Pedidos/pedido_#{num.to_s}.xml")
-        @tempXml = file.gets
-        #transformar xml
-        @tempPedido = XmlSimple.xml_in(@tempXml)
         
-        #agregar pedido a session (pasar a sgte metodo)
-        @xmlArray.push @tempPedido
-        
+		#armar string con pedido
+		@tempXml = file.gets
+		@placeholderXml = file.gets
+		@tempXml = "#{@tempXml}#{@placeholderXml}"
+		@placeholderXml = file.gets
+		@tempXml = "#{@tempXml}#{@placeholderXml}"
+		
+		#transformar xml
+		
+		if @tempXml.length > 0
+			@tempPedido = XmlSimple.xml_in(@tempXml)
+			
+			#agregar pedido a session (pasar a sgte metodo)
+			@xmlArray.push @tempPedido
+        end
+		
         #cerrar archivo
         file.close
         
@@ -67,6 +78,7 @@ class Metodo_sftp
   end
   
   puts @mensajeFinal
+  puts @tempPedido
   return Metodo_venta.venta(@tempPedido,@pedidoId)
   
   end
