@@ -5,11 +5,11 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: mongoid
+      database: dw_development
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost: "integra4.ing.puc.cl"
+        - localhost:27017
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -58,12 +58,21 @@ development:
 test:
   sessions:
     default:
-      database: dw
+      database: dw_test
       hosts:
-        - localhost: "integra4.ing.puc.cl"
+        - localhost:27017
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
         # low amounts for fast failures.
         max_retries: 1
         retry_interval: 0
+
+production:
+  sessions:
+    default:
+      hosts:
+        - 0.0.0.0:27017
+      username: 'mongo_dw'
+      password: "1234567890"
+      database: 'dw_production'
