@@ -28,10 +28,14 @@ class Welcome
   end
 
   def self.AgregarStock(sku, c)
-    variable = Spree::Variant.find_by_sku(sku)
-    producto = Spree::Product.find(variable.product_id) 
-    producto.master.stock_items.first.adjust_count_on_hand(c)
-
+    mod = Item.where(sku: sku).first
+    if mod
+      modelo = mod.modelo
+      producto = Spree::Product.find_by_name(modelo)
+      if producto
+        producto.master.stock_items.first.adjust_count_on_hand(c)
+      end
+    end
   end
 
   def self.Crear()
