@@ -5,6 +5,7 @@ class Reserva < ActiveRecord::Base
 	validates_presence_of :fecha
 	
 	def self.actualizar
+		require 'welcome.rb'
 
 		session = GoogleDrive.login("central.ahorro.4@gmail.com","Grupaso4")
 	  	ws = session.spreadsheet_by_key("0As9H3pQDLg79dGdkNFlvaUJKa2NjVmllN05VOXhiNmc").worksheets[0]
@@ -34,9 +35,26 @@ class Reserva < ActiveRecord::Base
 	  	  if (res.fecha < seven_days_ago)
 	  	    sku_temp = res.sku
 	  	    res.destroy
-	  	    #TODO Actualizar sku en spree
+
 	  	  end
 	  	end
+
+	  	#TODO Actualizar sku en spree
+	  	
+		puts "\n\n\n\n SPREE ----------------------------"
+
+	  	Reserva.group(:sku).sum(:cantidad).each do |tot|
+	  		almacen=Almacen.new()
+	  		stock=almacen.get_stock(tot[0].to_s)
+	  		stock_ok=stock-tot[1]
+
+	  		puts "----------------------------#{tot[0]}: #{tot[1]}"
+
+	  		Welcome.CambiarStockN(tot[0], stock_ok)
+	  	end
+
+
+
 	  	#redirect_to(all_reservas_path)
 
 	end

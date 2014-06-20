@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'almacen.rb'
+require 'welcome.rb'
 require "bunny"
 
 #conn = Bunny.new("amqp://nchulytf:-ks2JvgwoLddQfEPW7i7Rwdpo_gij2yq@tiger.cloudamqp.com/nchulytf")
@@ -17,7 +18,7 @@ begin
 	#consumer = q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, body|
 	for i in 1000..1000
 		puts " [x] Reposicion Recibida"
-		body= "{\"sku\":\"3652565\",\"fecha\":1379800001000,\"almacenId\":\"53571d16682f95b80b7685b5\"}"
+		body= "{\"sku\":\"70355\",\"fecha\":1379800001000,\"almacenId\":\"53571d16682f95b80b7685b5\"}"
 		puts " [x] Body: #{body}"
 		
 		#procesar
@@ -37,7 +38,9 @@ begin
 		almacen = Almacen.new()
 
     	almacen.despejarRecepcion
-    #TODO actualizar tabla spree
+    	#TODO actualizar tabla spree
+    	Welcome.AgregarStock(sku, 1)
+
 		sleep 1
 		
 		puts " [x] Oferta Procesada"
