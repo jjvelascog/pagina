@@ -3,7 +3,8 @@ class WelcomeController < ApplicationController
   end
   
   	def cargarJson
-		data = File.read('productos.json')
+  	filepath = "#{Rails.root}/productos.json"
+    data =File.open(filepath).read
     categorias = Spree::Taxonomy.find_by_name("Categoria")
     r_categorias = categorias.root
     marcas = Spree::Taxonomy.find_by_name("Marca")
@@ -28,9 +29,10 @@ class WelcomeController < ApplicationController
     end
 
 	def cargarSpree
-		data = File.read('productos.json')
+		filepath = "#{Rails.root}/productos.json"
+    data =File.open(filepath).read
  	  texto = JSON.parse(data)
-   	for i in 0...100
+   	for i in 0...texto.length-1
       if not produco = Spree::Product.find_by_name(texto[i]['modelo'])
    		  p = Spree::Product.create :name => texto[i]['modelo'], :price => texto[i]['precio']['internet'], :description => texto[i]['descripcion'], :sku => texto[i]['sku'], :shipping_category_id => 1, :available_on => Time.now
      		#img = Spree::Image.create(:attachment => open(texto[i]['imagen']), :viewable => p.master)
@@ -58,6 +60,48 @@ class WelcomeController < ApplicationController
   
   def pedidos
     
+  end
+  
+  def dashboard
+    map = %Q{
+      function() {
+        if (this.producto_ocupados == null) return;
+        for (i=0; i<this.producto_ocupados.length; i++ ){
+          emit(this.rut, { ingreso: NumberInt(this.producto_ocupados[i].ingreso), costo: NumberInt(this.producto_ocupados[i].costo)});
+        }
+      }
+    }
+    
+    reduce = %Q{
+      function(key, values) {
+        var result = { ingreso: NumberInt(0), costo: NumberInt(0)};
+        values.forEach(function(value) {
+          result.ingreso += value.ingreso;
+          result.costo += values.costo;
+        });
+        return result;
+      }
+    }
+    
+    clientes = Pedido_cliente.map_reduce(map, reduce).out(inline: true)
+    
+    arreglo = []
+    clientes.each do |result|
+        arreglo << [result["_id"] , result["value"]["ingreso"],result["value"]["costo"]]
+    end
+    
+    arreglo = arreglo.sort_by{|e| -e[1]}
+    
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Pedidos por cliente")
+      f.xAxis(:categories => [arreglo[0][0], arreglo[1][0], arreglo[2][0], arreglo[3][0], arreglo[4][0]])
+      f.series(:name => "Ingresos", :data => [arreglo[0][1], arreglo[1][1], arreglo[2][1], arreglo[3][1], arreglo[4][1]])
+      f.series(:name => "Costos", :data => [arreglo[0][2], arreglo[1][2], arreglo[2][2], arreglo[3][2], arreglo[4][2]])
+
+    
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:defaultSeriesType=>"column"})
+    end
   end
 
 end

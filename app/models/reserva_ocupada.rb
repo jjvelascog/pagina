@@ -1,6 +1,6 @@
 require 'mongoid'
 
-class Reserva_ocupada
+class ReservaOcupada
 
   include Mongoid::Document
   store_in collection: "reservas_ocupadas", database: "dw", session: "default"
@@ -8,4 +8,6 @@ class Reserva_ocupada
   field :sku, type: Integer
   field :cantidad, type: Integer
   field :pedidoId, type: Integer
+  
+  embedded_in :pedido_cliente
 end
