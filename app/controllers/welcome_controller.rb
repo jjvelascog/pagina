@@ -3,7 +3,8 @@ class WelcomeController < ApplicationController
   end
   
   	def cargarJson
-		data = File.read('productos.json')
+  	filepath = "#{Rails.root}/productos.json"
+    data =File.open(filepath).read
     categorias = Spree::Taxonomy.find_by_name("Categoria")
     r_categorias = categorias.root
     marcas = Spree::Taxonomy.find_by_name("Marca")
@@ -28,9 +29,10 @@ class WelcomeController < ApplicationController
     end
 
 	def cargarSpree
-		data = File.read('productos.json')
+		filepath = "#{Rails.root}/productos.json"
+    data =File.open(filepath).read
  	  texto = JSON.parse(data)
-   	for i in 0...100
+   	for i in 0...texto.length-1
       if not produco = Spree::Product.find_by_name(texto[i]['modelo'])
    		  p = Spree::Product.create :name => texto[i]['modelo'], :price => texto[i]['precio']['internet'], :description => texto[i]['descripcion'], :sku => texto[i]['sku'], :shipping_category_id => 1, :available_on => Time.now
      		#img = Spree::Image.create(:attachment => open(texto[i]['imagen']), :viewable => p.master)
