@@ -9,7 +9,7 @@ class WelcomeController < ApplicationController
     marcas = Spree::Taxonomy.find_by_name("Marca")
     r_marcas = marcas.root
  	  texto = JSON.parse(data)
-   	for i in 0...100
+   	for i in 0...texto.length-1
    		@item = Items.new({ "sku" => texto[i]['sku'], "marca" => texto[i]['marca'], "modelo" => texto[i]['modelo'], "precio_internet" => texto[i]['precio']['internet'], "precio" => texto[i]['precio']['normal'], "descripcion" => texto[i]['descripcion'], "imagen" => texto[i]['imagen']})
  		  begin
         @item.save
