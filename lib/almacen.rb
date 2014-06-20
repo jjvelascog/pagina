@@ -1,4 +1,5 @@
 class Almacen
+  require 'welcome.rb'
 	require "rubygems"
 	require "httparty"
 	require 'base64'
@@ -96,8 +97,11 @@ class Almacen
         cantidadDespachada += 1
       else
         break
-      end  
+      end
     end
+    #Actualizar stock del spree:
+    Welcome.AgregarStock(sku, -cantidadDespachada)
+
     return [cantidadDespachada,costo]
   end
   
@@ -219,6 +223,7 @@ class Almacen
         break
       end  
     end
+    Welcome.AgregarStock(sku, -cantidadDespachada)
     return cantidadDespachada
   end
   

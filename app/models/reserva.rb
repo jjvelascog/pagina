@@ -50,7 +50,7 @@ class Reserva < ActiveRecord::Base
 
 	  		puts "----------------------------#{tot[0]}: #{tot[1]}"
 
-	  		Welcome.CambiarStockN(tot[0], stock_ok)
+	  		Welcome.CambiarStockN(tot[0], stock_ok) #Cambiar llamada a CambiarStock!!!!
 	  	end
 
 
