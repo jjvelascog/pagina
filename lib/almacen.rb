@@ -100,7 +100,7 @@ class Almacen
       end
     end
     #Actualizar stock del spree:
-    #Welcome.AgregarStock(sku, -cantidadDespachada)
+    Welcome.AgregarStock(sku, -cantidadDespachada)
 
     return [cantidadDespachada,costo]
   end
@@ -223,7 +223,7 @@ class Almacen
         break
       end  
     end
-    #Welcome.AgregarStock(sku, -cantidadDespachada)
+    Welcome.AgregarStock(sku, -cantidadDespachada)
     return cantidadDespachada
   end
   
