@@ -17,7 +17,7 @@ class Metodo_venta
     @show_productos = []
 
     #guardar pedido en dw
-    Pedido_cliente.create(rut: @show_rut, pedidoId: pedidoId, fecha: Date.today, direccion: address)
+    pedidoDW = Pedido_cliente.new(rut: @show_rut, pedidoId: pedidoId, fecha: Date.today, direccion: address)
     
     pedido['Pedidos'][0]['Pedido'].each do |aux|
       
@@ -62,20 +62,23 @@ class Metodo_venta
       
       stock_disponible = stock-total_reservas+reserva_tuya     
       cantidad_despachada = 0
+      costo = 0
     
       if(reserva_tuya == 0)
         if(stock_disponible > cantidad_pedida)
-          cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
+          temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+          cantidad_despachada = temp[0]
+          costo = temp[1]
         else
           if(stock_disponible > 0)
             
-            cantidad_despachada = almacen.despachar(sku, stock_disponible, address, precio, pedidoId)[0]
-            #guardar producto quebrado en dw
-            Quebrado.create(sku: sku, cantidad: cantidad_pedida-stock_disponible, pedidoId: pedidoId)
+            temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = temp[0]
+            costo = temp[1]
           end
           #Quiebra (No tiene reserva y entrego lo que pudo)
           #guardar producto quebrado en dw
-          Quebrado.create(sku: sku, cantidad: cantidad_pedida, pedidoId: pedidoId)
+          #Quebrado.create(sku: sku, cantidad: cantidad_pedida-cantidad_despachada, pedidoId: pedidoId)
         end
       else
         if(stock < cantidad_pedida)
@@ -83,7 +86,9 @@ class Metodo_venta
           #Thread.new{pedir_a_otra_bodega(sku,cantidad_pedida)}
           if(reserva_tuya >= cantidad_pedida)
             solicitud_otros = almacen.pedir(sku,cantidad_pedida-stock)
-            cantidad_despachada = almacen.despachar(sku, stock+solicitud_otros, address, precio, pedidoId)[0]
+            temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = temp[0]
+            costo = temp[1]
             reserva_propia.first.cantidad -= cantidad_despachada
             reserva_propia.first.save
             if (reserva_propia.first.cantidad <= 0)
@@ -91,9 +96,9 @@ class Metodo_venta
             end
           else
             solicitud_otros = almacen.pedir(sku,cantidad_pedida-stock_disponible)
-            respo = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
-            cantidad_despachada = respo[0]
-            costo = respo[1]    
+            temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = temp[0]
+            costo = temp[1]    
             reserva_propia.first.cantidad -= cantidad_despachada
             reserva_propia.first.save
             if (reserva_propia.first.cantidad <= 0)
@@ -102,25 +107,33 @@ class Metodo_venta
           end
         else
           if(reserva_tuya > cantidad_pedida)
-            cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
+            temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = temp[0]
+            costo = temp[1]
             reserva_propia.first.cantidad -= cantidad_despachada
-            Reserva_ocupada.create(sku: sku, cantidad: cantidad_despachada, pedidoId: pedidoId)
+            #Reserva_ocupada.create(sku: sku, cantidad: cantidad_despachada, pedidoId: pedidoId)
             reserva_propia.first.save
           elsif(reserva_tuya == cantidad_pedida)  
             reserva_propia.destroy_all
-            cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
-            Reserva_ocupada.create(sku: sku, cantidad: cantidad_despachada, pedidoId: pedidoId)
+            temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+            cantidad_despachada = temp[0]
+            costo = temp[1]
+            #Reserva_ocupada.create(sku: sku, cantidad: cantidad_despachada, pedidoId: pedidoId)
           else
             if(stock_disponible >= cantidad_pedida)
               reserva_propia.destroy_all
-              Reserva_ocupada.create(sku: sku, cantidad: reserva_tuya, pedidoId: pedidoId)
-              cantidad_despachada = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)[0]
+              #Reserva_ocupada.create(sku: sku, cantidad: reserva_tuya, pedidoId: pedidoId)
+              temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+              cantidad_despachada = temp[0]
+              costo = temp[1]
             else
               #Quiebra (hay stock pero su reserva es menor al pedido)
               solicitud_otros = almacen.pedir(sku,cantidad_pedida-stock_disponible)
-              cantidad_despachada = almacen.despachar(sku,[reserva_tuya,stock_disponible+solicitud_otros].max, address, precio, pedidoId)[0]
+              temp = almacen.despachar(sku, cantidad_pedida, address, precio, pedidoId)
+              cantidad_despachada = temp[0]
+              costo = temp[1]
               reserva_propia.first.cantidad -= cantidad_despachada
-              Reserva_ocupada.create(sku: sku, cantidad: cantidad_despachada, pedidoId: pedidoId)
+              #Reserva_ocupada.create(sku: sku, cantidad: cantidad_despachada, pedidoId: pedidoId)
               reserva_propia.first.save
               if (reserva_propia.first.cantidad <= 0)
                 reserva_propia.destroy_all
@@ -131,8 +144,16 @@ class Metodo_venta
       end
       producto = [sku,cantidad_pedida,stock,precio, total_reservas,reserva_tuya,cantidad_despachada,solicitud_otros]
       @show_productos << producto
+      #Guardar en DW
+      pedidoDW.producto_ocupados.new(sku: sku, cantidad_pedida: cantidad_pedida, cantidad_despachada: cantidad_despachada, ingreso: cantidad_despachada*precio.to_i, costo: costo)
+      if (cantidad_pedida > cantidad_despachada)
+        pedidoDW.quebrados.new(sku: sku, cantidad: cantidad_pedida-cantidad_despachada, pedidoId: pedidoId)
+      end
+      if (reserva_tuya != 0 and cantidad_despachad != 0 )
+        pedidoDW.reserva_ocupadas.new(sku: sku, cantidad: [cantidad_despachada,reserva_tuya].min, pedidoId: pedidoId)
+      end
     end
-    #Guardar en data Warehouse #TODO Juan Jose
+    pedidoDW.save
     return [@show_pedido,@show_archivo,@show_adress,@show_rut,@show_productos]
   end
   
