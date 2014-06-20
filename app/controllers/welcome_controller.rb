@@ -55,5 +55,9 @@ class WelcomeController < ApplicationController
     end
     redirect_to root_path
   end
+  
+  def pedidos
+    
+  end
 
 end

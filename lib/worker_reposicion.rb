@@ -34,7 +34,8 @@ begin
 		
 		#logica de reposicion
 		almacen = Almacen.new()
-    	almacen.despejarRecepcion
+		
+		almacen.despejarRecepcion
     #TODO actualizar tabla spree
 		sleep 5
 		
