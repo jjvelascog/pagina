@@ -224,7 +224,14 @@ class Almacen
         break
       end  
     end
+    #Actualizar stock Spree
     Welcome.AgregarStock(sku, -cantidadDespachada)
+
+    #Guardar en el DW
+    despachoDW = Pedido_bodega.new(id_bodega: destino, fecha: Date.today)   
+    despachoDW.producto_ocupados.new(sku: sku, cantidad_pedida: cantidad, cantidad_despachada: cantidadDespachada, ingreso: 0, costo: 0)
+    despachoDW.save
+
     return cantidadDespachada
   end
   
