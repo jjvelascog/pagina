@@ -16,7 +16,7 @@ protect_from_forgery with: :null_session
     respuesta=alm.despachar_a_otros(sku,cantidad,almacen_id)
     
     #Guardar en el DW
-    despachoDW = Pedido_bodega.new(id_bodega: usuario, fecha: Date.today)   
+    despachoDW = Pedido_bodega.new(id_bodega: username, fecha: Date.today)   
     despachoDW.producto_ocupados.new(sku: sku.to_i, cantidad_pedida: cantidad, cantidad_despachada: respuesta, ingreso: 0, costo: 0)
     despachoDW.save
     
