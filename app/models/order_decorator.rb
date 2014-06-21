@@ -32,7 +32,6 @@ module Spree
 				#puts cantidad
 				alm.despachar(sku, cantidad, direccion, precio,-1)
 			end
-			hola
 		end
 	end
 end
