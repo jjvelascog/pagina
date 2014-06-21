@@ -15,6 +15,11 @@ every 1.day, :at => '7:35 am' do
 	runner "Reserva.actualizar"
 end
 
+#PROBANDO:
+every 1.hour do
+	runner "Metodo_twitter.publicarOfertas"
+end
+
 every 10.minutes do
 	runner "Metodo_sftp.index"
 end

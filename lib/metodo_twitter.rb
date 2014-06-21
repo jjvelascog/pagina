@@ -30,16 +30,23 @@ require 'welcome.rb'
 			precio_internet=Producto.where(sku: sku_input).first.precio
 
 		end 
-
-
-		fecha_inicio= Date.strptime((inicio/1000).to_s, '%s')
-		fecha_fin= Date.strptime((fin/1000).to_s, '%s')
-		hora_inicio=Time.at(inicio/1000)
-		hora_fin=Time.at(fin/1000)
-
-		Welcome.CrearPromocion(precio_input, sku_input, hora_inicio, hora_fin)
-		mensaje="OFERTA DEL #{fecha_inicio} AL #{fecha_fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
+		
+		mensaje="OFERTA DEL #{inicio} AL #{fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
 
 		postTweet(mensaje)
+	end
+
+	def self.publicarOfertas
+		now = Time.now
+
+		Spree::SalePrice.where(start_at: Time.now..(Time.now+3600)).each do |oferta|
+	  	id=oferta.price_id
+	  	sku=Spree::Variant.find(id).sku
+	  	precio=oferta.value
+	  	inicio=oferta.start_at
+	  	fin=oferta.end_at
+
+	  	processOferta(sku,precio,inicio,fin)
+	  end
 	end
 end

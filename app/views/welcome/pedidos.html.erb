@@ -13,6 +13,7 @@
 		<th>Rut</th>
 		<th>Fecha</th>
 		<th>Direccion</th>
+		<th>Ingreso</th>
 	</tr>
 <% Pedido_cliente.all.each do |pedido| %>
 	<tr>
@@ -20,5 +21,6 @@
 		<td><%= pedido.rut %></td>
 		<td><%= pedido.fecha %></td>
 		<td><%= pedido.direccion %></td>
+		<td><%= pedido.ingresotot %></td>
 	</tr>
 <% end %>

@@ -8,4 +8,6 @@ class Quebrado
   field :sku, type: Integer
   field :cantidad, type: Integer
   field :pedidoId, type: Integer
+  
+  embedded_in :pedido_cliente
 end
