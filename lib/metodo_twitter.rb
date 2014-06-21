@@ -47,9 +47,9 @@ require 'welcome.rb'
 	def self.publicarOfertas
 		now = Time.now
 
-		Spree::SalePrice.where(start_at: Time.now.to_date).each do |oferta|
+		Spree::SalePrice.where(start_at: Time.now..(Time.now+3600)).each do |oferta|
 	  	id=oferta.price_id
-	  	sku=Spree::Variant.find(id)
+	  	sku=Spree::Variant.find(id).sku
 	  	precio=oferta.value
 	  	inicio=oferta.start_at
 	  	fin=oferta.end_at
