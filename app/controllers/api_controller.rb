@@ -14,6 +14,12 @@ protect_from_forgery with: :null_session
     end
   	alm = Almacen.new
     respuesta=alm.despachar_a_otros(sku,cantidad,almacen_id)
+    
+    #Guardar en el DW
+    despachoDW = Pedido_bodega.new(id_bodega: usuario, fecha: Date.today)   
+    despachoDW.producto_ocupados.new(sku: sku.to_i, cantidad_pedida: cantidad, cantidad_despachada: respuesta, ingreso: 0, costo: 0)
+    despachoDW.save
+    
     if respuesta>0
       render json: {sku: sku, cantidad: respuesta} and return
     else
