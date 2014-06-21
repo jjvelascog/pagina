@@ -100,6 +100,7 @@ class Almacen
       end
     end
     #Actualizar stock del spree:
+    puts "Despachado producto: #{sku}"
     Welcome.AgregarStock(sku, -cantidadDespachada)
 
     return [cantidadDespachada,costo]

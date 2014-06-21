@@ -55,5 +55,6 @@ require 'welcome.rb'
 	  	fin=oferta.end_at
 
 	  	processOferta(sku,precio,inicio,fin)
+	  end
 	end
 end

@@ -16,8 +16,8 @@ every 1.day, :at => '7:35 am' do
 end
 
 #PROBANDO:
-every 1.day, :at => '19:50 am' do
-	runner "Metodo_publicarOfertas"
+every 1.day, :at => '19:59 pm' do
+	runner "Metodo_twitter.publicarOfertas"
 end
 
 every 10.minutes do
