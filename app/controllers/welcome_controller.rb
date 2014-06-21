@@ -9,7 +9,7 @@ class WelcomeController < ApplicationController
     marcas = Spree::Taxonomy.find_by_name("Marca")
     r_marcas = marcas.root
  	  texto = JSON.parse(data)
-   	for i in 0...texto.length-1
+   	for i in 0...texto.length
    		@item = Items.new({ "sku" => texto[i]['sku'], "marca" => texto[i]['marca'], "modelo" => texto[i]['modelo'], "precio_internet" => texto[i]['precio']['internet'], "precio" => texto[i]['precio']['normal'], "descripcion" => texto[i]['descripcion'], "imagen" => texto[i]['imagen']})
  		  begin
         @item.save
@@ -30,8 +30,8 @@ class WelcomeController < ApplicationController
 	def cargarSpree
 		data = File.read('productos.json')
  	  texto = JSON.parse(data)
-   	for i in 0...100
-      if not produco = Spree::Product.find_by_name(texto[i]['modelo'])
+   	for i in 0...texto.length
+      if not producto = Spree::Variant.find_by_sku(texto[i]['sku'])
    		  p = Spree::Product.create :name => texto[i]['modelo'], :price => texto[i]['precio']['internet'], :description => texto[i]['descripcion'], :sku => texto[i]['sku'], :shipping_category_id => 1, :available_on => Time.now
      		#img = Spree::Image.create(:attachment => open(texto[i]['imagen']), :viewable => p.master)
         p.taxons << Spree::Taxon.find_by_name(texto[i]['marca'])
