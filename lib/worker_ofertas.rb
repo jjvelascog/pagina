@@ -1,5 +1,5 @@
 # encoding: utf-8
-#require_relative 'metodo_twitter.rb'
+require 'welcome.rb'
 require "bunny"
 
 conn = Bunny.new("amqp://nchulytf:-ks2JvgwoLddQfEPW7i7Rwdpo_gij2yq@tiger.cloudamqp.com/nchulytf")
@@ -36,8 +36,11 @@ begin
 		puts " [o] Fin: #{fin}"
 		
 		#logica de ofertas
-		#Metodo_twitter.postTweet(sku)
-		sleep 5
+		hora_inicio=Time.at(inicio/1000)
+		hora_fin=Time.at(fin/1000)
+
+		Welcome.CrearPromocion(precio, sku, hora_inicio, hora_fin)
+		sleep 1
 		
 		puts " [x] Oferta Procesada"
 		ch.ack(delivery_info.delivery_tag)

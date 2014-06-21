@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'almacen.rb'
+require 'welcome.rb'
 require "bunny"
 
 conn = Bunny.new("amqp://nchulytf:-ks2JvgwoLddQfEPW7i7Rwdpo_gij2yq@tiger.cloudamqp.com/nchulytf")
@@ -36,8 +37,9 @@ begin
 		almacen = Almacen.new()
 		
 		almacen.despejarRecepcion
-    #TODO actualizar tabla spree
-		sleep 5
+		#TODO actualizar tabla spree
+		Welcome.AgregarStock(sku, 1)
+		sleep 1
 		
 		puts " [x] Reposicion Procesada"
 		ch.ack(delivery_info.delivery_tag)

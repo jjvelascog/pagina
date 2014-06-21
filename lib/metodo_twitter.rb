@@ -34,11 +34,7 @@ require 'welcome.rb'
 
 		fecha_inicio= Date.strptime((inicio/1000).to_s, '%s')
 		fecha_fin= Date.strptime((fin/1000).to_s, '%s')
-		hora_inicio=Time.at(inicio/1000)
-		hora_fin=Time.at(fin/1000)
-
-		Welcome.CrearPromocion(precio_input, sku_input, hora_inicio, hora_fin)
-
+		
 		mensaje="OFERTA DEL #{fecha_inicio} AL #{fecha_fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
 
 		postTweet(mensaje)
