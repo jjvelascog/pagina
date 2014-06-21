@@ -42,4 +42,26 @@ class Welcome
         p = Spree::Product.create :name => "prueba", :price => 100, :description => "", :sku => 1233556, :shipping_category_id => 1, :available_on => Time.now
         p.on_hand = 0
   end
+  
+  def self.SetStock
+    Item.all.each do |item|
+      self.ArreglarStock(item.sku)
+    end
+  end
+  
+  def self.ArreglarStock(sku)
+      require 'almacen.rb'
+      almacen = Almacen.new
+      stock = almacen.get_stock(sku.to_s)
+      
+      reserva = Reserva.where(sku: sku.to_s)
+      if(!reserva.empty?)
+        total_reservas = reserva.sum(:cantidad)
+      else
+        total_reservas = 0
+      end
+      stock_disponible = stock-total_reservas
+      self.CambiarStock(sku, [stock_disponible,0].max)
+  end
+  
 end
