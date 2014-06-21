@@ -29,7 +29,15 @@ resources :items
   
   get "welcome/dashboard" => "welcome#dashboard"
   
-  get "welcome/showPedido" => "welcome#showPedido", as: "show_pedido"
+  get "welcome/showPedido" => "welcome#showPedido"
+  
+  get "welcome/pedidosSpree" => "welcome#pedidosSpree"
+  
+  get "welcome/showPedidoSpree" => "welcome#showPedidoSpree"
+  
+  get "welcome/pedidosBodega" => "welcome#pedidosBodega"
+  
+  get "welcome/showPedidoBodega" => "welcome#showPedidoBodega"
   
 
 # This line mounts Spree's routes at the root of your application.

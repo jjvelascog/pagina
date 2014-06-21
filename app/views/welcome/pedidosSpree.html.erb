@@ -1,0 +1,16 @@
+<h1>Pedidos de Spree</h1>
+<Table>
+	<tr>
+		<th>Nombre</th>
+		<th>Fecha</th>
+		<th>Direccion</th>
+		<th>Show</th>
+	</tr>
+<% Pedido_spree.all.each do |pedido| %>
+	<tr>
+		<td><%= pedido.nombre %></td>
+		<td><%= pedido.fecha %></td>
+		<td><%= pedido.direccion %></td>
+		<td><a href= <%= "/welcome/showPedidoSpree?id=#{pedido.id}" %>> pedidos<a/><p/></td>
+	</tr>
+<% end %>

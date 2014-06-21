@@ -32,7 +32,7 @@ module Spree
 				#puts "variant_id"+variant_id
 				#puts "sku"+sku
 				#puts cantidad
-				temp = alm.despachar(sku, cantidad, direccion, precio,-1)
+				temp = alm.despachar(sku, cantidad, direccion, precio.to_s,"-1")
 				cantidad_despachada = temp[0]
         costo = temp[1]
 				pedidoDW.producto_ocupados.new(sku: sku, cantidad_pedida: cantidad, cantidad_despachada: cantidad_despachada, ingreso: cantidad_despachada*precio, costo: costo)

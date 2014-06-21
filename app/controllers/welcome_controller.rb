@@ -66,6 +66,22 @@ class WelcomeController < ApplicationController
     @pedido = Pedido_cliente.find(params[:id])
   end
   
+  def pedidosSpree
+    
+  end
+  
+  def showPedidoSpree
+    @pedido = Pedido_spree.find(params[:id])
+  end
+  
+    def pedidosBodega
+    
+  end
+  
+  def showPedidoBodega
+    @pedido = Pedido_bodega.find(params[:id])
+  end
+  
   def dashboard
     map = %Q{
       function() {
