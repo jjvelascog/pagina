@@ -1,12 +1,13 @@
 require 'mongoid'
 
-class Pedido_bodega
+class Pedido_spree
 
   include Mongoid::Document
-  store_in collection: "pedidos_bodegas", database: "dw", session: "default"
+  store_in collection: "pedidos_sprees", database: "dw", session: "default"
 
-  field :id_bodega, type: Integer
+  field :nombre, type: String
   field :fecha, type: Date
+  field :direccion, type: String
   
   embeds_many :producto_ocupados
   
@@ -14,4 +15,3 @@ class Pedido_bodega
     producto_ocupados.sum(:ingreso)
   end
 end
-

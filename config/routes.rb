@@ -29,6 +29,8 @@ resources :items
   
   get "welcome/dashboard" => "welcome#dashboard"
   
+  get "welcome/showPedido" => "welcome#showPedido", as: "show_pedido"
+  
 
 # This line mounts Spree's routes at the root of your application.
   # This means, any requests to URLs such as /products, will go to Spree::ProductsController.

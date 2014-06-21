@@ -12,4 +12,6 @@ class ProductoOcupado
   field :costo, type: Integer
   
   embedded_in :pedido_cliente
+  embedded_in :pedido_spree
+  embedded_in :pedido_bodega
 end

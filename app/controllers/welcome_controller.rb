@@ -62,6 +62,10 @@ class WelcomeController < ApplicationController
     
   end
   
+  def showPedido
+    @pedido = Pedido_cliente.find(params[:id])
+  end
+  
   def dashboard
     map = %Q{
       function() {
