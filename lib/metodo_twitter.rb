@@ -31,7 +31,7 @@ require 'welcome.rb'
 
 		end 
 		
-		mensaje="OFERTA DEL #{inicio} AL #{fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
+		mensaje="OFERTA DEL #{(inicio).strftime("%d/%m/%Y %H:%M")} AL #{(fin).strftime("%d/%m/%Y %H:%M")}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
 
 		postTweet(mensaje)
 	end
@@ -43,7 +43,7 @@ require 'welcome.rb'
 	  	id=oferta.price_id
 	  	sku=Spree::Variant.find(id).sku
 	  	precio=oferta.value
-	  	inicio=oferta.start_at
+	  	inicio=oferta.start_at 
 	  	fin=oferta.end_at
 
 	  	processOferta(sku,precio,inicio,fin)
