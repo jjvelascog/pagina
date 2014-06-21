@@ -30,12 +30,8 @@ require 'welcome.rb'
 			precio_internet=Producto.where(sku: sku_input).first.precio
 
 		end 
-
-
-		fecha_inicio= Date.strptime((inicio/1000).to_s, '%s')
-		fecha_fin= Date.strptime((fin/1000).to_s, '%s')
 		
-		mensaje="OFERTA DEL #{fecha_inicio} AL #{fecha_fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
+		mensaje="OFERTA DEL #{inicio} AL #{fin}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
 
 		postTweet(mensaje)
 	end
