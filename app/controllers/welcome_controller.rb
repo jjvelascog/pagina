@@ -122,6 +122,35 @@ class WelcomeController < ApplicationController
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
       f.chart({:defaultSeriesType=>"column"})
     end
+    
+    map2 = %Q{
+      function() {
+        if (this.producto_ocupados == null) return;
+        for (i=0; i<this.producto_ocupados.length; i++ ){
+          emit("a", { ingreso: NumberInt(this.producto_ocupados[i].ingreso), cantidad: NumberInt(this.producto_ocupados[i].cantidad_despachada)});
+        }
+      }
+    }
+    
+    reduce2 = %Q{
+      function(key, values) {
+        var result = { ingreso: NumberInt(0), cantidad: NumberInt(0)};
+        values.forEach(function(value) {
+          result.ingreso += value.ingreso;
+          result.cantidad += values.cantidad;
+        });
+        return result;
+      }
+    }
+    
+    sftp = Pedido_cliente.map_reduce(map2, reduce2).out(inline: true)
+    spree = Pedido_spree.map_reduce(map2, reduce2).out(inline: true)
+    bodega = Pedido_bodega.map_reduce(map2, reduce2).out(inline: true)
+    
+    puts "====================="
+    puts sftp.first["value"]["ingreso"]
+    puts sftp.first["value"]["cantidad"]
+    puts "====================="
   end
 
 end
