@@ -154,13 +154,13 @@ class WelcomeController < ApplicationController
     puts "====================="
     
     @chart2 = LazyHighCharts::HighChart.new('pie') do |f|
-      f.chart({:defaultSeriesType=>"pie" , :margin=> [50, 200, 60, 170]} )
+      f.chart({:defaultSeriesType=>"pie" , :margin=> [5, 5, 5, 5]} )
       series = {
                :type=> 'pie',
                :name=> 'Cantidad Despachada',
                :data=> [
-                  ['Pedidos spree',  spree.first["value"]["cantidad"]],
-                  ['Pedidos bodegas',  bodega.first["value"]["cantidad"]],
+                  ['Pedidos spree',  bodega.first["value"]["cantidad"]],
+                  ['Pedidos bodegas',  spree.first["value"]["cantidad"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["cantidad"],
@@ -170,7 +170,7 @@ class WelcomeController < ApplicationController
                ]
       }
       f.series(series)
-      f.options[:title][:text] = "THA PIE"
+      f.options[:title][:text] = "Cantidad despachada"
       f.legend(:layout=> 'vertical',:style=> {:left=> 'auto', :bottom=> 'auto',:right=> '50px',:top=> '100px'}) 
       f.plot_options(:pie=>{
         :allowPointSelect=>true, 
@@ -183,7 +183,39 @@ class WelcomeController < ApplicationController
           }
         }
       })
-end
+    end
+      
+    @chart3 = LazyHighCharts::HighChart.new('pie') do |f|
+      f.chart({:defaultSeriesType=>"pie" , :margin=> [5, 5, 5, 5]} )
+      series = {
+               :type=> 'pie',
+               :name=> 'Ingresos',
+               :data=> [
+                  ['Pedidos spree',  bodega.first["value"]["ingreso"]],
+                  ['Pedidos bodegas',  spree.first["value"]["ingreso"]],
+                  {
+                     :name=> 'Pedidos ftp',    
+                     :y=> sftp.first["value"]["ingreso"],
+                     :sliced=> true,
+                     :selected=> true
+                  }
+               ]
+      }
+      f.series(series)
+      f.options[:title][:text] = "Ingresos"
+      f.legend(:layout=> 'vertical',:style=> {:left=> 'auto', :bottom=> 'auto',:right=> '50px',:top=> '100px'}) 
+      f.plot_options(:pie=>{
+        :allowPointSelect=>true, 
+        :cursor=>"pointer" , 
+        :dataLabels=>{
+          :enabled=>true,
+          :color=>"black",
+          :style=>{
+            :font=>"13px Trebuchet MS, Verdana, sans-serif"
+          }
+        }
+      })
+    end
   end
 
 end
