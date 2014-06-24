@@ -111,16 +111,24 @@ class WelcomeController < ApplicationController
     end
     
     arreglo = arreglo.sort_by{|e| -e[1]}
+    x = []
+    y1 = []
+    y2 = []
+    arreglo.take(10).each do |a|
+      x << Vtiger.get_name_from_rut(a[0])
+      y1 << a[1]
+      y2 << a[2]
+    end
     
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(:text => "Pedidos por cliente")
-      f.xAxis(:categories => [arreglo[0][0], arreglo[1][0], arreglo[2][0], arreglo[3][0], arreglo[4][0]])
-      f.series(:name => "Ingresos", :data => [arreglo[0][1], arreglo[1][1], arreglo[2][1], arreglo[3][1], arreglo[4][1]])
-      f.series(:name => "Costos", :data => [arreglo[0][2], arreglo[1][2], arreglo[2][2], arreglo[3][2], arreglo[4][2]])
+      f.title(:text => "Clientes Principales")
+      f.xAxis(:categories => x)
+      f.series(:name => "Ingresos", :data => y1)
+      f.series(:name => "Costos", :data => y2)
 
     
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"column"})
+      f.chart({:type=>"bar", :defaultSeriesType=>"bar", :height=>600})
     end
     
     map2 = %Q{
@@ -147,20 +155,14 @@ class WelcomeController < ApplicationController
     spree = Pedido_spree.map_reduce(map2, reduce2).out(inline: true)
     bodega = Pedido_bodega.map_reduce(map2, reduce2).out(inline: true)
     
-    puts "====================="
-    puts sftp.first["value"]["cantidad"]
-    puts sftp.first["value"]["ingreso"]
-    puts sftp.first
-    puts "====================="
-    
     @chart2 = LazyHighCharts::HighChart.new('pie') do |f|
-      f.chart({:defaultSeriesType=>"pie" , :margin=> [5, 5, 5, 5]} )
+      f.chart({:defaultSeriesType=>"pie" , :margin=> [30, 5, 5, 5], :height=>300} )
       series = {
                :type=> 'pie',
                :name=> 'Cantidad Despachada',
                :data=> [
-                  ['Pedidos spree',  bodega.first["value"]["cantidad"]],
-                  ['Pedidos bodegas',  spree.first["value"]["cantidad"]],
+                  ['Pedidos spree', bodega.first["value"]["cantidad"]],
+                  ['Pedidos bodegas', spree.first["value"]["cantidad"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["cantidad"],
@@ -186,13 +188,13 @@ class WelcomeController < ApplicationController
     end
       
     @chart3 = LazyHighCharts::HighChart.new('pie') do |f|
-      f.chart({:defaultSeriesType=>"pie" , :margin=> [5, 5, 5, 5]} )
+      f.chart({:defaultSeriesType=>"pie" , :margin=> [30, 5, 5, 5], :height=>300} )
       series = {
                :type=> 'pie',
                :name=> 'Ingresos',
                :data=> [
-                  ['Pedidos spree',  bodega.first["value"]["ingreso"]],
-                  ['Pedidos bodegas',  spree.first["value"]["ingreso"]],
+                  ['Pedidos spree', bodega.first["value"]["ingreso"]],
+                  ['Pedidos bodegas', spree.first["value"]["ingreso"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["ingreso"],
