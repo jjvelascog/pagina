@@ -157,7 +157,7 @@ class Almacen
     #Probada
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra5.ing.puc.cl:8080/api/v1/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      response = HTTParty.post("http://integra5.ing.puc.cl/api/v1/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -168,7 +168,7 @@ class Almacen
     end
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra6.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      response = HTTParty.post("http://integra6.ing.puc.cl/apiGrupo/pedido",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -179,7 +179,7 @@ class Almacen
     end
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra7.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "86bdc4bf03b372559e52cfa5e3bd2a8e1528e232", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      response = HTTParty.get("http://integra7.ing.puc.cl/api/api_request",:query => { "usuario" => "grupo4", "password" => "86bdc4bf03b372559e52cfa5e3bd2a8e1528e232", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -191,7 +191,7 @@ class Almacen
     #Probada
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra8.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      response = HTTParty.post("http://integra8.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -203,7 +203,7 @@ class Almacen
     
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProductos",:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProducto/grupo4/grupo4integra/#{sku}",:body => {"cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -214,7 +214,7 @@ class Almacen
     end
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra1.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+      response = HTTParty.post("http://integra1.ing.puc.cl/ecommerce/api/v1/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cant" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -226,7 +226,7 @@ class Almacen
     #Probada
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra2.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion})
+      response = HTTParty.post("http://integra2.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion})
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
@@ -238,7 +238,7 @@ class Almacen
     
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
-      response = HTTParty.post("http://integra3.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion})
+      response = HTTParty.post("http://integra3.ing.puc.cl/api/pedirProducto",:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion})
       if (response.code == 200 and response.key?("cantidad"))
         tempRecibida = response["cantidad"]
         cantidad_recibida += tempRecibida
