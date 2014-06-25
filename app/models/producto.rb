@@ -31,6 +31,19 @@ class Producto < ActiveRecord::Base
 		system("/usr/lib/jvm/java-7-oracle/jre/bin/java -jar access2csv.jar ~/Dropbox/Grupo4/DBPrecios.accdb")
 	end
 
+	def self.get_costo(sku)
+		#saca el costo del producto con la última fecha de vigencia, pero no asegura si es o no vigente
+		#el parámetro sku es string
+		costo_s=Producto.where(sku: sku).order(:fechavig).last[:costoprod]
+		costo=costo_s.to_i
+
+		if(costo<0)
+			costo=0
+		end
+
+		return costo
+	end
+
 
 
 
