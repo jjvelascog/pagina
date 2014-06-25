@@ -1,1 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="container" style="width:100%">
+
+<div id="menu" style="background-color:#FFFFFF;height:600px;width:60%;float:left;">
 <%= high_chart("some_id", @chart) %>
+</div>
+
+<div id="content" style="background-color:#FFFFFF;height:200px;width:40%;float:left;">
+<%= high_chart("my_id2", @chart2) do |c| %>
+          <%= raw "options.tooltip.formatter = function() {return '<b>'+ this.point.name +'</b>: '+ this.y.toLocaleString() +' productos';}"  %>
+          <%= raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"  %>
+      <% end %>
+<%= high_chart("my_id3", @chart3) do |c| %>
+          <%= raw "options.tooltip.formatter = function() {return '<b>'+ this.point.name +'</b>: $'+ this.y.toLocaleString();}"  %>
+          <%= raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"  %>
+      <% end %>
+</div>
+
+<div id="footer" style="background-color:#FFFFFF;clear:both;text-align:center;">
+Hola
+</div>
+
+</div>
+ 
+</body>
+</html>

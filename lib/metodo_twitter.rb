@@ -31,7 +31,7 @@ require 'welcome.rb'
 
 		end 
 		
-		mensaje="OFERTA DEL #{(inicio).strftime("%d/%m/%Y %H:%M")} AL #{(fin).strftime("%d/%m/%Y %H:%M")}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
+		mensaje="#ofertagrupo4 OFERTA DEL #{(inicio).strftime("%d/%m/%Y %H:%M")} AL #{(fin).strftime("%d/%m/%Y %H:%M")}! #{marca} #{modelo} - ANTES: $#{precio_internet} | AHORA: $#{precio_input}"
 
 		postTweet(mensaje)
 	end
