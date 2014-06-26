@@ -58,6 +58,15 @@ header a {
 	font-family: sans-serif;
 }
 
+header a.titulo {
+	color: white;
+	font-size: 30px;
+	margin-top: 4px;
+	padding-right: 30px;
+	font-family: fantasy;
+	display: inline;
+}
+
 header a:hover{
 	color: lightgreen;
 }
