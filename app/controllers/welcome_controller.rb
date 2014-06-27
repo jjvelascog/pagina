@@ -268,7 +268,7 @@ class WelcomeController < ApplicationController
         arreglo << [result["_id"] , result["value"]["cantidad"],result["value"]["cantidadPedida"]]
     end
     
-    arreglo = arreglo.sort_by{|e| -e[0]}
+    arreglo = arreglo.sort_by! {|e| e[0]}
     x = []
     y1 = []
     y2 = []
@@ -313,7 +313,7 @@ class WelcomeController < ApplicationController
         arreglo << [result["_id"] , result["value"]["cantidad"],result["value"]["cantidadPedida"]]
     end
     
-    arreglo = arreglo.sort_by{|e| -e[0]}
+    arreglo = arreglo.sort_by! {|e| e[0]}
     x = []
     y1 = []
     y2 = []
