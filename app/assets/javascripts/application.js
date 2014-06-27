@@ -15,8 +15,3 @@
 //= require turbolinks
 //= require_tree .
 //= require highcharts
-
-
-$(document).ready( function () {
-    $('#table_id').DataTable();
-} );
