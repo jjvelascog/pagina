@@ -166,7 +166,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 5, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 5, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
@@ -181,7 +181,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 6, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 6, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
@@ -196,7 +196,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 7, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 7, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
@@ -212,7 +212,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 8, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-     rescue
+     rescue Exception
        Solicitud_bodega.create(id_bodega: 8, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
      end
     end
@@ -228,7 +228,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 9, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 9, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
@@ -243,7 +243,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 1, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 1, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
@@ -259,7 +259,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 2, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 2, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
@@ -275,7 +275,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 3, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue
+      rescue Exception
         Solicitud_bodega.create(id_bodega: 3, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
     end
