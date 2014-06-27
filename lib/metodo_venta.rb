@@ -71,8 +71,8 @@ class Metodo_venta
           costo = temp[1]
         else
           solicitud_otros = almacen.pedir(sku,cantidad_pedida-stock_disponible)
-          if(stock_disponible+solicitud_otros > cantidad_pedida)
-            temp = almacen.despachar(sku, cantidad_pedida-stock_disponible+solicitud_otros, address, precio, pedidoId)
+          if(stock_disponible+solicitud_otros > 0)
+            temp = almacen.despachar(sku, stock_disponible+solicitud_otros, address, precio, pedidoId)
             cantidad_despachada = temp[0]
             costo = temp[1]
           end

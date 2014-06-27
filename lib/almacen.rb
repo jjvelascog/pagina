@@ -161,7 +161,7 @@ class Almacen
         response = HTTParty.post("http://integra5.ing.puc.cl/api/v1/pedirProducto",:timeout =>5, :body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 5, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 5, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -174,10 +174,10 @@ class Almacen
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
       begin
-        response = HTTParty.post("http://integra6.ing.puc.cl/apiGrupo/pedido",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
+        response = HTTParty.post("http://integra6.ing.puc.cl/apiGrupo/pedido",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "4", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 6, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 6, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -193,7 +193,7 @@ class Almacen
         response = HTTParty.get("http://integra7.ing.puc.cl/api/api_request",:timeout =>5,:query => { "usuario" => "grupo4", "password" => "86bdc4bf03b372559e52cfa5e3bd2a8e1528e232", "sku" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 7, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 7, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -210,7 +210,7 @@ class Almacen
         response = HTTParty.post("http://integra8.ing.puc.cl/api/pedirProducto",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "grupo4integra", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 8, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 8, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -227,7 +227,7 @@ class Almacen
         response = HTTParty.post("http://integra9.ing.puc.cl/api/pedirProducto/grupo4/grupo4integra/#{sku}",:timeout =>5,:body => {"cantidad" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 9, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 9, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -243,7 +243,7 @@ class Almacen
         response = HTTParty.post("http://integra1.ing.puc.cl/ecommerce/api/v1/pedirProducto",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cant" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 1, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 1, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -260,7 +260,7 @@ class Almacen
         response = HTTParty.post("http://integra2.ing.puc.cl/api/pedirProducto",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion})
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 2, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 2, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
@@ -277,7 +277,7 @@ class Almacen
         response = HTTParty.post("http://integra3.ing.puc.cl/api/pedirProducto",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "SKU" => sku, "cantidad" => cantidad - cantidad_recibida, "almacen_id" => @recepcion})
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
-          cantidad_recibida += tempRecibida
+          cantidad_recibida += tempRecibida.to_i
           Solicitud_bodega.create(id_bodega: 3, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: tempRecibida)
         else
           Solicitud_bodega.create(id_bodega: 3, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)

@@ -162,8 +162,8 @@ class WelcomeController < ApplicationController
                :type=> 'pie',
                :name=> 'Cantidad Despachada',
                :data=> [
-                  ['Pedidos spree', 12], #bodega.first["value"]["cantidad"]],
-                  ['Pedidos bodegas', 14], #spree.first["value"]["cantidad"]],
+                  ['Pedidos spree', bodega.first["value"]["cantidad"]],
+                  ['Pedidos bodegas', spree.first["value"]["cantidad"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["cantidad"],
@@ -194,8 +194,8 @@ class WelcomeController < ApplicationController
                :type=> 'pie',
                :name=> 'Ingresos',
                :data=> [
-                  ['Pedidos spree', 100000], #bodega.first["value"]["ingreso"]],
-                  ['Pedidos bodegas', 120000], #spree.first["value"]["ingreso"]],
+                  ['Pedidos spree', bodega.first["value"]["ingreso"]],
+                  ['Pedidos bodegas', spree.first["value"]["ingreso"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["ingreso"],
