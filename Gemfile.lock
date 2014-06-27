@@ -343,7 +343,6 @@ DEPENDENCIES
   bson (~> 2.2.3)
   bunny (~> 1.2.2)
   coffee-rails (~> 4.0.0)
-  devise
   google_drive (= 0.3.9)
   httparty (= 0.13.1)
   jbuilder (~> 1.2)

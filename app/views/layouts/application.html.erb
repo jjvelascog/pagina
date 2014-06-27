@@ -7,27 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-	<ul id="nav">
-		<li><a class="titulo" href="/">Central Ahorro - G4</a></li>
-		<li><%= link_to "E-Commerce", spree_path %></li>
-		<% if user_signed_in? %>
-		  <li><%= link_to "Pedidos", welcome_pedidos_path %></li>
-		  <li><%= link_to "DashBoard", welcome_dashboard_path %></li>
-		<% else %>
-		<% end %>
-		  <% if user_signed_in? %>
-		    <li> <%= link_to "Logout", destroy_user_session_path, :method => :delete %></li>
-		  <% else %>
-		    <li><%= link_to "Sign in", new_user_session_path %></li>
-  <% end %>
-</ul>
-<% if not user_signed_in? %>
-	  <div class="cuadrado">
-	  	<h1>Bienvenidos a la página de Central Ahorro del Grupo 4</h1>
-	  	<p>Para poder ver los pedidos y el dashboard, debe ingresar con su usuario.
-	  </div>
-  <% else %>
-  <% end %>
+<header>
+	<a class="titulo" href="http://integra4.ing.puc.cl">Central Ahorro - G4</a>
+	<a href="http://integra4.ing.puc.cl/store">E-Commerce</a>
+	<a href="http://integra4.ing.puc.cl/welcome/dashboard">DashBoard</a>
+	<a href="http://integra4.ing.puc.cl/welcome/pedidos">Pedidos</a>
+</header>
 <%= yield %>
 
 </body>

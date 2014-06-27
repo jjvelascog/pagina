@@ -770,10 +770,12 @@ ActiveRecord::Schema.define(version: 20140618140848) do
     t.datetime "reset_password_sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "spree_api_key",          limit: 48
     t.datetime "remember_created_at"
   end
 
   add_index "spree_users", ["email"], name: "email_idx_unique", unique: true
+  add_index "spree_users", ["spree_api_key"], name: "index_spree_users_on_spree_api_key"
 
   create_table "spree_variants", force: true do |t|
     t.string   "sku",                                     default: "",    null: false
