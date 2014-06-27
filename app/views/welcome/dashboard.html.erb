@@ -1,5 +1,5 @@
 <% if not user_signed_in? %>
-	redirect_to welcome_index_path, alert: "Debes registrarte!"
+	<% redirect_to welcome_index_path, alert: "Debes registrarte!" %>
 <% else %>
 <!DOCTYPE html>
 <html>
