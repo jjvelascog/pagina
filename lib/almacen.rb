@@ -2,6 +2,7 @@ class Almacen
   require 'welcome.rb'
 	require "rubygems"
 	require "httparty"
+	default_timeout 5
 	require 'base64'
 	require 'openssl'
 
