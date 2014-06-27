@@ -1,5 +1,5 @@
 <h1>Pedidos</h1>
-<Table>
+<table id="table_id" class="display">
 	<!--
 	<tr>
 		<th>mias:</th>
@@ -8,13 +8,16 @@
 		<th><%= @total_reservas.inspect %></th>
 	</tr>
 	/-->
-	<tr>
-		<th>ID</th>
-		<th>Rut</th>
-		<th>Fecha</th>
-		<th>Direccion</th>
-		<th>Show</th>
-	</tr>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Rut</th>
+			<th>Fecha</th>
+			<th>Direccion</th>
+			<th>Show</th>
+		</tr>
+	</thead>
+	<tbody>
 <% Pedido_cliente.all.each do |pedido| %>
 	<tr>
 		<td><%= pedido.pedidoId %></td>
@@ -24,3 +27,5 @@
 		<td><a href= <%= "/welcome/showPedido?id=#{pedido.id}" %>> pedidos<a/><p/></td>
 	</tr>
 <% end %>
+</tbody>
+</table>

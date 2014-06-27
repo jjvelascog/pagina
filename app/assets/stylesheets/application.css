@@ -123,3 +123,7 @@ div.cuadrado{
 div.cuadrado p, h1 {
 	color: white;
 }
+
+tbbody > tr {
+	color: white;
+}
