@@ -76,9 +76,6 @@ class Metodo_venta
             cantidad_despachada = temp[0]
             costo = temp[1]
           end
-          #Quiebra (No tiene reserva y entrego lo que pudo)
-          #guardar producto quebrado en dw
-          #Quebrado.create(sku: sku, cantidad: cantidad_pedida-cantidad_despachada, pedidoId: pedidoId)
         end
       else
         if(stock < cantidad_pedida)
