@@ -166,7 +166,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 5, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 5, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
@@ -182,7 +182,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 6, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 6, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
@@ -198,7 +198,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 7, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 7, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
@@ -215,7 +215,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 8, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-     rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+     rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
        Solicitud_bodega.create(id_bodega: 8, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
      end
@@ -232,7 +232,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 9, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 9, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
@@ -248,7 +248,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 1, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 1, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
@@ -265,7 +265,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 2, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 2, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
@@ -282,7 +282,7 @@ class Almacen
         else
           Solicitud_bodega.create(id_bodega: 3, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
         end
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError,
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError,
        Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
         Solicitud_bodega.create(id_bodega: 3, fecha: Date.today, sku: sku, cantidad_pedida: tempPedida, cantidad_recibida: 0)
       end
