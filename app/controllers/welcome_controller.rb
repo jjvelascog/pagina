@@ -97,7 +97,7 @@ class WelcomeController < ApplicationController
         var result = { ingreso: NumberInt(0), costo: NumberInt(0)};
         values.forEach(function(value) {
           result.ingreso += value.ingreso;
-          result.costo += values.costo;
+          result.costo += value.costo;
         });
         return result;
       }
@@ -135,17 +135,18 @@ class WelcomeController < ApplicationController
       function() {
         if (this.producto_ocupados == null) return;
         for (i=0; i<this.producto_ocupados.length; i++ ){
-          emit("a", { ingreso: NumberInt(this.producto_ocupados[i].ingreso), cantidad: NumberInt(this.producto_ocupados[i].cantidad_despachada)});
+          emit("a", { ingreso: NumberInt(this.producto_ocupados[i].ingreso), cantidad: NumberInt(this.producto_ocupados[i].cantidad_despachada), cantidadPedida: NumberInt(this.producto_ocupados[i].cantidad_pedida)});
         }
       }
     }
     
     reduce2 = %Q{
       function(key, values) {
-        var result = { ingreso: NumberInt(0), cantidad: NumberInt(0)};
+        var result = { ingreso: NumberInt(0), cantidad: NumberInt(0), cantidadPedida: NumberInt(0)};
         values.forEach(function(value) {
           result.ingreso += value.ingreso;
           result.cantidad += value.cantidad;
+          result.cantidadPedida += value.cantidadPedida;
         });
         return result;
       }
@@ -161,8 +162,8 @@ class WelcomeController < ApplicationController
                :type=> 'pie',
                :name=> 'Cantidad Despachada',
                :data=> [
-                  ['Pedidos spree', bodega.first["value"]["cantidad"]],
-                  ['Pedidos bodegas', spree.first["value"]["cantidad"]],
+                  ['Pedidos spree', 12], #bodega.first["value"]["cantidad"]],
+                  ['Pedidos bodegas', 14], #spree.first["value"]["cantidad"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["cantidad"],
@@ -193,8 +194,8 @@ class WelcomeController < ApplicationController
                :type=> 'pie',
                :name=> 'Ingresos',
                :data=> [
-                  ['Pedidos spree', bodega.first["value"]["ingreso"]],
-                  ['Pedidos bodegas', spree.first["value"]["ingreso"]],
+                  ['Pedidos spree', 100000], #bodega.first["value"]["ingreso"]],
+                  ['Pedidos bodegas', 120000], #spree.first["value"]["ingreso"]],
                   {
                      :name=> 'Pedidos ftp',    
                      :y=> sftp.first["value"]["ingreso"],
@@ -217,6 +218,120 @@ class WelcomeController < ApplicationController
           }
         }
       })
+    end
+    @pedidaSftp = sftp.first["value"]["cantidadPedida"]
+    @despachadaSftp =  sftp.first["value"]["cantidad"]
+    if (@pedidaSftp == 0)
+      @porcentajeSftp  = 0
+    else
+      @porcentajeSftp  = @despachadaSftp / @pedidaSftp
+    end
+    @pedidaSpree = spree.first["value"]["cantidadPedida"]
+    @despachadaSpree =  spree.first["value"]["cantidad"]
+    if (@pedidaSpree == 0)
+      @porcentajeSpree  = 0
+    else
+      @porcentajeSpree  = @despachadaSpree / @pedidaSpree
+    end
+    @pedidaBodega = bodega.first["value"]["cantidadPedida"]
+    @despachadaBodega =  bodega.first["value"]["cantidad"]
+    if (@pedidaBodega == 0)
+      @porcentajeBodega  = 0
+    else
+      @porcentajeBodega  = @despachadaBodega / @pedidaBodega
+    end
+    
+    map3 = %Q{
+      function() {
+        if (this.producto_ocupados == null) return;
+        for (i=0; i<this.producto_ocupados.length; i++ ){
+          emit(this.id_bodega, { cantidad: NumberInt(this.producto_ocupados[i].cantidad_despachada), cantidadPedida: NumberInt(this.producto_ocupados[i].cantidad_pedida)});
+        }
+      }
+    }
+    
+    reduce3 = %Q{
+      function(key, values) {
+        var result = { cantidad: NumberInt(0), cantidadPedida: NumberInt(0)};
+        values.forEach(function(value) {
+          result.cantidad += value.cantidad;
+          result.cantidadPedida += value.cantidadPedida;
+        });
+        return result;
+      }
+    }
+    
+    clientes = Pedido_bodega.map_reduce(map3, reduce3).out(inline: true)
+    
+    arreglo = []
+    clientes.each do |result|
+        arreglo << [result["_id"] , result["value"]["cantidad"],result["value"]["cantidadPedida"]]
+    end
+    
+    arreglo = arreglo.sort_by{|e| -e[0]}
+    x = []
+    y1 = []
+    y2 = []
+    arreglo.each do |a|
+      x << a[0]
+      y1 << a[1]
+      y2 << a[2]
+    end
+    
+    @chart4 = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Pedidos de otras bodegas")
+      f.xAxis(:categories => x)
+      f.series(:name => "Cantidad Pedida", :data => y2)
+      f.series(:name => "Cantidad Despachada", :data => y1)
+
+    
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:type=>"column", :defaultSeriesType=>"column", :height=>600})
+    end
+    
+    map4 = %Q{
+      function() {
+        emit(this.id_bodega, { cantidad: NumberInt(this.cantidad_recibida), cantidadPedida: NumberInt(this.cantidad_pedida)});
+      }
+    }
+    
+    reduce4 = %Q{
+      function(key, values) {
+        var result = { cantidad: NumberInt(0), cantidadPedida: NumberInt(0)};
+        values.forEach(function(value) {
+          result.cantidad += value.cantidad;
+          result.cantidadPedida += value.cantidadPedida;
+        });
+        return result;
+      }
+    }
+    
+    clientes = Solicitud_bodega.map_reduce(map4, reduce4).out(inline: true)
+    
+    arreglo = []
+    clientes.each do |result|
+        arreglo << [result["_id"] , result["value"]["cantidad"],result["value"]["cantidadPedida"]]
+    end
+    
+    arreglo = arreglo.sort_by{|e| -e[0]}
+    x = []
+    y1 = []
+    y2 = []
+    arreglo.each do |a|
+      x << a[0]
+      y1 << a[1]
+      y2 << a[2]
+    end
+    
+    @chart5 = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Pedidos de otras bodegas")
+      f.xAxis(:categories => x)
+      f.series(:name => "Cantidad Pedida", :data => y2)
+      f.series(:name => "Cantidad Recibida", :data => y1)
+
+    
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:type=>"column", :defaultSeriesType=>"column", :height=>600})
     end
   end
 

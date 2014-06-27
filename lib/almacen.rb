@@ -102,7 +102,7 @@ class Almacen
     #Actualizar stock del spree:
     puts "Despachado producto: #{sku}"
     Welcome.AgregarStock(sku, -cantidadDespachada)
-
+    costo += cantidadDespachada*Producto.get_costo(sku)
     return [cantidadDespachada,costo]
   end
   

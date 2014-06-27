@@ -64,4 +64,27 @@ class Welcome
       self.CambiarStock(sku, [stock_disponible,0].max)
   end
   
+  def self.ArreglarCostos
+    Pedido_cliente.all.each do |pedido|
+      if (pedido.producto_ocupados != nil)
+        pedido.producto_ocupados.all.each do |producto|
+          if (producto.costo == 0)
+            producto.costo = producto.cantidad_despachada*Producto.get_costo(producto.sku)
+          end
+        end
+        pedido.save
+      end
+    end
+    Pedido_spree.all.each do |pedido|
+      if (pedido.producto_ocupados != nil)
+        pedido.producto_ocupados.all.each do |producto|
+          if (producto.costo == 0)
+            producto.costo = producto.cantidad_despachada*Producto.get_costo(producto.sku)
+          end
+        end
+        pedido.save
+      end
+    end
+  end
+  
 end

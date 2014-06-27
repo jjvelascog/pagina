@@ -20,9 +20,31 @@
 </div>
 
 <div id="footer" style="background-color:#FFFFFF;clear:both;text-align:center;">
-Hola
+<div id="footer1" style="background-color:#FFFFFF;height:200px;width:33%;float:left;">
+<p style="text-align: center;"> <strong style="font-size: 125%;">FTP</strong></p>
+<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaSftp.round %> </p>
+<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaSftp.round %> </p>
+<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeSftp*100).round %> % </strong></p>
+</div>
+<div id="footer2" style="background-color:#FFFFFF;height:200px;width:33%;float:left;">
+<p style="text-align: center;"> <strong style="font-size: 125%;">Spree</strong></p>
+<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaSpree.round %> </p>
+<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaSpree.round %> </p>
+<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeSpree*100).round %> % </strong></p>
+</div>
+<div id="footer3" style="background-color:#FFFFFF;height:200px;width:34%;float:left;">
+<p style="text-align: center;"> <strong style="font-size: 125%;">Otras Bodegas</strong></p>
+<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaBodega.round %> </p>
+<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaBodega.round %> </p>
+<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeBodega*100).round %> % </strong></p>
+</div>
 </div>
 
+<div id="apis" style="background-color:#FFFFFF;clear:both;text-align:center;">
+
+</div>
+<%= high_chart("some_id2", @chart4) %>
+<%= high_chart("some_id3", @chart5) %>
 </div>
  
 </body>
