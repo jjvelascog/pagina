@@ -240,7 +240,7 @@ class Almacen
     if (cantidad_recibida < cantidad)
       tempPedida = cantidad - cantidad_recibida
       begin
-        response = HTTParty.post("http://integra1.ing.puc.cl/ecommerce/api/v1/pedirProducto",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cant" => cantidad - cantidad_recibida, "almacenId" => @recepcion}) 
+        response = HTTParty.post("http://integra1.ing.puc.cl/ecommerce/api/v1/pedirProducto",:timeout =>5,:body => { "usuario" => "grupo4", "password" => "373f3f314f442d67ec9512e24b82d550e72a2ec3", "sku" => sku, "cant" => tempPedida.to_s, "almacenId" => @recepcion}) 
         if (response.code == 200 and response.key?("cantidad"))
           tempRecibida = response["cantidad"]
           cantidad_recibida += tempRecibida.to_i
