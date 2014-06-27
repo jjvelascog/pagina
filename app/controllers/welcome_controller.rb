@@ -81,7 +81,7 @@ class WelcomeController < ApplicationController
   def showPedidoBodega
     @pedido = Pedido_bodega.find(params[:id])
   end
-  
+
   def dashboard
     map = %Q{
       function() {
