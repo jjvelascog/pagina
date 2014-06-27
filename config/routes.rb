@@ -1,5 +1,6 @@
 Pagina::Application.routes.draw do
 
+  devise_for :users
   get "usuarios/actualizar"
 resources :items
 
