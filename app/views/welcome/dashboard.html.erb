@@ -1,56 +1,55 @@
 <% if not user_signed_in? %>
-<p>blablablablal</p>
-	<% redirect_to welcome_index_path %>
+	<meta http-equiv="refresh" content="0; url=/" />
 <% else %>
-<!DOCTYPE html>
-<html>
-<body>
+	<!DOCTYPE html>
+	<html>
+	<body>
 
-<div id="container" style="width:100%">
+	<div id="container" style="width:100%">
 
-<div id="menu" style="background-color:#FFFFFF;height:600px;width:60%;float:left;">
-<%= high_chart("some_id", @chart) %>
-</div>
+	<div id="menu" style="background-color:#FFFFFF;height:600px;width:60%;float:left;">
+	<%= high_chart("some_id", @chart) %>
+	</div>
 
-<div id="content" style="background-color:#FFFFFF;height:200px;width:40%;float:left;">
-<%= high_chart("my_id2", @chart2) do |c| %>
-          <%= raw "options.tooltip.formatter = function() {return '<b>'+ this.point.name +'</b>: '+ this.y.toLocaleString() +' productos';}"  %>
-          <%= raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"  %>
-      <% end %>
-<%= high_chart("my_id3", @chart3) do |c| %>
-          <%= raw "options.tooltip.formatter = function() {return '<b>'+ this.point.name +'</b>: $'+ this.y.toLocaleString();}"  %>
-          <%= raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"  %>
-      <% end %>
-</div>
+	<div id="content" style="background-color:#FFFFFF;height:200px;width:40%;float:left;">
+	<%= high_chart("my_id2", @chart2) do |c| %>
+	          <%= raw "options.tooltip.formatter = function() {return '<b>'+ this.point.name +'</b>: '+ this.y.toLocaleString() +' productos';}"  %>
+	          <%= raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"  %>
+	      <% end %>
+	<%= high_chart("my_id3", @chart3) do |c| %>
+	          <%= raw "options.tooltip.formatter = function() {return '<b>'+ this.point.name +'</b>: $'+ this.y.toLocaleString();}"  %>
+	          <%= raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"  %>
+	      <% end %>
+	</div>
 
-<div id="footer" style="background-color:#FFFFFF;clear:both;text-align:center;">
-<div id="footer1" style="background-color:#FFFFFF;height:200px;width:33%;float:left;">
-<p style="text-align: center;"> <strong style="font-size: 125%;">FTP</strong></p>
-<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaSftp.round %> </p>
-<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaSftp.round %> </p>
-<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeSftp*100).round %> % </strong></p>
-</div>
-<div id="footer2" style="background-color:#FFFFFF;height:200px;width:33%;float:left;">
-<p style="text-align: center;"> <strong style="font-size: 125%;">Spree</strong></p>
-<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaSpree.round %> </p>
-<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaSpree.round %> </p>
-<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeSpree*100).round %> % </strong></p>
-</div>
-<div id="footer3" style="background-color:#FFFFFF;height:200px;width:34%;float:left;">
-<p style="text-align: center;"> <strong style="font-size: 125%;">Otras Bodegas</strong></p>
-<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaBodega.round %> </p>
-<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaBodega.round %> </p>
-<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeBodega*100).round %> % </strong></p>
-</div>
-</div>
+	<div id="footer" style="background-color:#FFFFFF;clear:both;text-align:center;">
+	<div id="footer1" style="background-color:#FFFFFF;height:200px;width:33%;float:left;">
+	<p style="text-align: center;"> <strong style="font-size: 125%;">FTP</strong></p>
+	<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaSftp.round %> </p>
+	<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaSftp.round %> </p>
+	<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeSftp*100).round %> % </strong></p>
+	</div>
+	<div id="footer2" style="background-color:#FFFFFF;height:200px;width:33%;float:left;">
+	<p style="text-align: center;"> <strong style="font-size: 125%;">Spree</strong></p>
+	<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaSpree.round %> </p>
+	<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaSpree.round %> </p>
+	<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeSpree*100).round %> % </strong></p>
+	</div>
+	<div id="footer3" style="background-color:#FFFFFF;height:200px;width:34%;float:left;">
+	<p style="text-align: center;"> <strong style="font-size: 125%;">Otras Bodegas</strong></p>
+	<p style="text-align: center;"> Cantidad Pedida: <%= @pedidaBodega.round %> </p>
+	<p style="text-align: center;"> Cantidad Despachada: <%= @despachadaBodega.round %> </p>
+	<p style="text-align: center;"> <strong style="font-size: 200%;"><%= (@porcentajeBodega*100).round %> % </strong></p>
+	</div>
+	</div>
 
-<div id="apis" style="background-color:#FFFFFF;clear:both;text-align:center;">
+	<div id="apis" style="background-color:#FFFFFF;clear:both;text-align:center;">
 
-</div>
-<%= high_chart("some_id2", @chart4) %>
-<%= high_chart("some_id3", @chart5) %>
-</div>
- 
-</body>
-</html>
+	</div>
+	<%= high_chart("some_id2", @chart4) %>
+	<%= high_chart("some_id3", @chart5) %>
+	</div>
+	 
+	</body>
+	</html>
 <% end %>
