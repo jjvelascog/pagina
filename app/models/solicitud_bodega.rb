@@ -9,7 +9,7 @@ class Solicitud_bodega
   field :fecha, type: Date
   field :sku, type: String
   field :cantidad_pedida, type: Integer
-  field :cantidad_recibida,type: Intger
+  field :cantidad_recibida,type: Integer
 
 end
 
