@@ -127,3 +127,7 @@ div.cuadrado p, h1 {
 tbbody > tr {
 	color: white;
 }
+
+td > a {
+	color: black;
+}
