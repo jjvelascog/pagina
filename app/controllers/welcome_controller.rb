@@ -324,7 +324,7 @@ class WelcomeController < ApplicationController
     end
     
     @chart5 = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(:text => "Pedidos de otras bodegas")
+      f.title(:text => "Solicitudes a otras bodegas")
       f.xAxis(:categories => x)
       f.series(:name => "Cantidad Pedida", :data => y2)
       f.series(:name => "Cantidad Recibida", :data => y1)
