@@ -20,7 +20,7 @@ every 1.hour do
 	runner "Metodo_twitter.publicarOfertas"
 end
 
-every 10.minutes do
+every 30.minutes do
 	runner "Metodo_sftp.index"
 end
 
